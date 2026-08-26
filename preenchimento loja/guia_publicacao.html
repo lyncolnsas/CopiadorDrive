@@ -490,7 +490,7 @@
     <section class="step-card">
       <div class="step-header">
         <div class="step-number">2</div>
-        <div class="step-title">Configurar OAuth no Google Cloud (Nova Tela "Google Auth Platform")</div>
+        <div class="step-title">Configurar OAuth no Google Cloud Console</div>
         <label class="step-checkbox">
           <input type="checkbox" class="step-check-input" onchange="updateProgress()">
           <span>Concluído</span>
@@ -501,10 +501,21 @@
         <p><a href="https://console.cloud.google.com/" target="_blank" class="btn-link">Abrir Google Cloud Console ↗</a></p>
         
         <div class="alert alert-info">
-          <span>💡 <strong>Dica:</strong> Se ainda não ativou a API, digite <strong>"Google Drive API"</strong> na barra de pesquisa no topo da página e clique no botão azul <strong>"Ativar"</strong>.</span>
+          <span>💡 <strong>Dica sobre o Projeto:</strong> No topo da página (ao lado do logo "Google Cloud"), verifique o nome do projeto selecionado (ex: <code>Calendar</code>). Você pode usar esse mesmo projeto existente sem problemas ou clicar sobre o nome dele para criar/selecionar um novo projeto chamado <code>Copiador de Drive</code>.</span>
         </div>
 
-        <p>No menu lateral esquerdo da tela <strong>"Google Auth Platform"</strong>, siga estas 4 etapas:</p>
+        <div class="alert alert-warning" style="margin-top: -6px;">
+          <span>⚡ <strong>Ativação da API:</strong> Se ainda não ativou a API do Drive, digite <strong>"Google Drive API"</strong> na barra de pesquisa no topo da página e clique no botão azul <strong>"Ativar"</strong>.</span>
+        </div>
+
+        <!-- Navegação pelos Menus -->
+        <h4 style="font-size: 15px; color: var(--text-main); margin-top: 10px;">Como navegar na tela:</h4>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: -6px;">
+          Se você estiver no menu clássico <em>"APIs e Serviços"</em>, clique em <strong>Tela de permissão OAuth</strong> (4ª opção do menu) e depois em <strong>"EDITAR APLICATIVO"</strong> (ou selecione <strong>Externo</strong> e clique em <em>Criar</em>).
+        </p>
+        <p style="font-size: 13px; color: var(--text-muted);">
+          No menu lateral da tela <strong>Google Auth Platform</strong>, siga as 4 etapas abaixo:
+        </p>
         
         <ol>
           <li>
@@ -539,23 +550,26 @@
                 </ul>
               </li>
               <li><strong>Dados de contato do desenvolvedor:</strong> Digite seu e-mail.</li>
-              <li>Clique em <strong>Salvar</strong>.</li>
+              <li>Clique no botão azul <strong>Salvar</strong>.</li>
             </ul>
           </li>
+
           <li>
             <strong>2. Público-alvo:</strong>
             <ul>
               <li>Certifique-se de que o tipo de usuário está configurado como <strong>Externo</strong>.</li>
             </ul>
           </li>
+
           <li>
-            <strong>3. Acesso a dados (Escopos da API):</strong>
+            <strong>3. Acesso a dados (Onde ficam os Escopos da API):</strong>
             <ul>
-              <li>Clique no botão <strong>"Adicionar ou remover escopos"</strong> (uma janela lateral abrirá à direita).</li>
+              <li>Clique na opção <strong>`Acesso a dados`</strong> no menu lateral esquerdo.</li>
+              <li>Clique no botão <strong>"Adicionar ou remover escopos"</strong> (uma janela lateral abrirá no lado direito da tela).</li>
               <li>Você pode adicionar de <strong>duas maneiras</strong>:
                 <br>
                 <div style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 8px; padding: 12px; margin: 8px 0;">
-                  <strong style="color: #1a73e8;">👉 Método 1 (Mais Rápido - Colar Manualmente):</strong>
+                  <strong style="color: #1a73e8;">👉 Método 1 (Mais Rápido - Colar Manualmente no final da janela):</strong>
                   <p style="font-size: 12px; color: #5f6368; margin: 4px 0 8px 0;">Role até o final da janela lateral direita até o campo <em>"Adicionar escopos manualmente"</em>, cole os dois escopos e clique em <em>"Adicionar à tabela"</em>:</p>
                   <div style="margin: 4px 0;">
                     <span class="copy-chip">https://www.googleapis.com/auth/drive.readonly</span>
@@ -568,7 +582,7 @@
                 </div>
 
                 <div style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 8px; padding: 12px; margin: 8px 0;">
-                  <strong style="color: #1a73e8;">👉 Método 2 (Buscar na Lista):</strong>
+                  <strong style="color: #1a73e8;">👉 Método 2 (Buscar pelo Filtro no topo da tabela):</strong>
                   <ol style="font-size: 12px; color: #5f6368; padding-left: 16px; margin-top: 4px;">
                     <li>No campo de filtro/pesquisa no topo da tabela, digite <code>drive.readonly</code> e marque a caixa de seleção correspondente.</li>
                     <li>Depois digite <code>drive.file</code> e marque a caixa de seleção correspondente.</li>
@@ -578,10 +592,12 @@
               <li>Após selecionar ambos, role até o final da janela lateral e clique no botão azul <strong>"Atualizar"</strong> (ou <em>"Salvar e continuar"</em>).</li>
             </ul>
           </li>
+
           <li>
-            <strong>4. Clientes (Gerar o Client ID):</strong>
+            <strong>4. Clientes (Gerar o Client ID da Extensão):</strong>
             <ul>
-              <li>Clique no botão <strong>"+ CRIAR CLIENTE"</strong> no topo.</li>
+              <li>No menu lateral esquerdo, clique em <strong>`Clientes`</strong> (ou <em>Credenciais</em>).</li>
+              <li>Clique no botão <strong>"+ CRIAR CLIENTE"</strong> no topo da tela.</li>
               <li><strong>Tipo de aplicativo:</strong> Selecione <strong>Extensão do Chrome</strong> <em>(Chrome Extension)</em>.</li>
               <li><strong>Nome:</strong> <span class="tag">Copiador de Drive</span></li>
               <li><strong>ID do item:</strong> Cole o ID de 32 letras que você obteve na Chrome Web Store na Etapa 1.</li>

@@ -1,11 +1,23 @@
-# Ignorar arquivos temporários e de sistema
-Thumbs.db
-Desktop.ini
-.DS_Store
+# Extensão Copiador & Catalogador de Drive - Arquivos Privados
+# O repositório público no GitHub conterá apenas a Landing Page e Política de Privacidade.
 
-# Logs
-*.log
+# Código-fonte da Extensão
+manifest.json
+background.js
+catalog-engine.js
+popup.html
+popup.css
+popup.js
+tab.html
+tab.js
+content.js
+content.css
 
-# Arquivos de ambiente locais
-.env
-.env.local
+# Pacotes de Distribuição
+*.zip
+
+# Documentos Internos da Loja e Agentes
+preenchimento loja/
+.agents/
+scratch/
+*.py

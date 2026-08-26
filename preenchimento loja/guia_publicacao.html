@@ -300,6 +300,41 @@
       color: var(--text-main);
     }
 
+    .copy-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f3f4;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-main);
+      border: 1px solid #dadce0;
+      vertical-align: middle;
+      margin: 3px 0;
+    }
+
+    .btn-copy-chip {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .btn-copy-chip:hover {
+      background: var(--primary-hover);
+    }
+
     /* Alerts */
     .alert {
       padding: 14px 16px;
@@ -475,20 +510,31 @@
           <li>
             <strong>1. Branding (Marca / Tela de Consentimento):</strong>
             <ul>
-              <li><strong>Nome do app:</strong> Digite <span class="tag">Copiador de Drive</span></li>
+              <li><strong>Nome do app:</strong> 
+                <span class="copy-chip">Copiador de Drive</span>
+                <button class="btn-copy-chip" onclick="copyVal('Copiador de Drive', this)">Copiar</button>
+              </li>
               <li><strong>E-mail de suporte do usuário:</strong> Selecione seu e-mail.</li>
-              <li><strong>Página inicial do aplicativo:</strong> Cole <span class="tag">https://lyncolnsas.github.io/CopiadorDrive/</span></li>
-              <li><strong>Link da Política de Privacidade do aplicativo:</strong> Cole a URL oficial:
+              <li><strong>Página inicial do aplicativo:</strong> 
                 <br>
-                <span class="tag">https://lyncolnsas.github.io/CopiadorDrive/privacy.html</span>
+                <span class="copy-chip">https://lyncolnsas.github.io/CopiadorDrive/</span>
+                <button class="btn-copy-chip" onclick="copyVal('https://lyncolnsas.github.io/CopiadorDrive/', this)">Copiar</button>
+              </li>
+              <li><strong>Link da Política de Privacidade do aplicativo:</strong>
+                <br>
+                <span class="copy-chip">https://lyncolnsas.github.io/CopiadorDrive/privacy.html</span>
+                <button class="btn-copy-chip" onclick="copyVal('https://lyncolnsas.github.io/CopiadorDrive/privacy.html', this)">Copiar</button>
               </li>
               <li><strong>Link dos Termos de Serviço:</strong> (Opcional - pode deixar em branco ou colar o link da privacidade).</li>
               <li><strong>Domínios autorizados:</strong>
                 <ul>
                   <li>Mantenha: <span class="tag">chromiumapp.org</span></li>
-                  <li>Clique em <strong>+ Adicionar domínio</strong> e digite: <span class="tag">lyncolnsas.github.io</span>
+                  <li>Clique em <strong>+ Adicionar domínio</strong> e cole:
                     <br>
-                    <small style="color: #b06000;">⚠️ <em>Atenção:</em> Digite seu subdomínio completo (<code>lyncolnsas.github.io</code>) e não apenas <code>github.io</code>, pois o Google rejeita domínios compartilhados.</small>
+                    <span class="copy-chip">lyncolnsas.github.io</span>
+                    <button class="btn-copy-chip" onclick="copyVal('lyncolnsas.github.io', this)">Copiar</button>
+                    <br>
+                    <small style="color: #b06000;">⚠️ <em>Atenção:</em> Use seu subdomínio completo (<code>lyncolnsas.github.io</code>) e não apenas <code>github.io</code>, pois o Google rejeita domínios compartilhados.</small>
                   </li>
                 </ul>
               </li>
@@ -508,9 +554,14 @@
               <li>Clique no botão <strong>"Adicionar ou remover escopos"</strong>.</li>
               <li>Pesquise e marque os 2 escopos do Google Drive:
                 <br>
-                <span class="tag">https://www.googleapis.com/auth/drive.readonly</span>
-                <br>
-                <span class="tag">https://www.googleapis.com/auth/drive.file</span>
+                <div style="margin: 4px 0;">
+                  <span class="copy-chip">https://www.googleapis.com/auth/drive.readonly</span>
+                  <button class="btn-copy-chip" onclick="copyVal('https://www.googleapis.com/auth/drive.readonly', this)">Copiar</button>
+                </div>
+                <div style="margin: 4px 0;">
+                  <span class="copy-chip">https://www.googleapis.com/auth/drive.file</span>
+                  <button class="btn-copy-chip" onclick="copyVal('https://www.googleapis.com/auth/drive.file', this)">Copiar</button>
+                </div>
               </li>
               <li>Clique em <strong>Salvar e continuar</strong>.</li>
             </ul>
@@ -652,6 +703,18 @@
         setTimeout(() => {
           btn.innerText = originalText;
           btn.style.background = 'rgba(255,255,255,0.15)';
+        }, 2000);
+      });
+    }
+
+    function copyVal(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Copiado! ✓';
+        btn.style.background = '#1e8e3e';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.background = '#1a73e8';
         }, 2000);
       });
     }

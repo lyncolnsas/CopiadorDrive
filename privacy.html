@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +47,7 @@
       background: var(--card-bg);
       padding: 36px 40px;
       border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(60,64,67,0.08);
+      box-shadow: 0 4px 16px rgba(60, 64, 67, 0.08);
       border: 1px solid var(--border);
     }
 
@@ -95,13 +96,15 @@
       margin-bottom: 6px;
     }
 
-    p, li {
+    p,
+    li {
       font-size: 14px;
       color: #3c4043;
       margin-bottom: 10px;
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 24px;
       margin-bottom: 14px;
     }
@@ -156,12 +159,14 @@
       .card {
         padding: 24px 20px;
       }
+
       h1 {
         font-size: 22px;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="card">
@@ -169,37 +174,53 @@
       <h1>Política de Privacidade, Termos de Uso e Isenção de Responsabilidade</h1>
       <div class="updated-date">Última atualização: 26 de Agosto de 2026 • Versão 1.1.0</div>
 
-      <p>Bem-vindo ao <strong>Copiador & Catalogador de Drive</strong>. Este documento define os Termos de Uso, a Política de Privacidade e a Isenção de Responsabilidade aplicáveis a todos os usuários da extensão para Google Chrome.</p>
+      <p>Bem-vindo ao <strong>Copiador & Catalogador de Drive</strong>. Este documento define os Termos de Uso, a
+        Política de Privacidade e a Isenção de Responsabilidade aplicáveis a todos os usuários da extensão para Google
+        Chrome.</p>
 
       <!-- ================= PARTE 1: POLÍTICA DE PRIVACIDADE ================= -->
       <h2>🔒 1. Política de Privacidade</h2>
-      
+
       <h3>1.1 Coleta Zero de Dados Pessoais</h3>
-      <p>A extensão foi desenvolvida sob o princípio da <strong>Privacidade por Design</strong>. Nós <strong>NÃO</strong> coletamos, não registramos, não rastreamos e não enviamos para nenhum servidor externo quaisquer informações pessoais, senhas, e-mails, metadados ou arquivos do usuário.</p>
+      <p>A extensão foi desenvolvida sob o princípio da <strong>Privacidade por Design</strong>. Nós
+        <strong>NÃO</strong> coletamos, não registramos, não rastreamos e não enviamos para nenhum servidor externo
+        quaisquer informações pessoais, senhas, e-mails, metadados ou arquivos do usuário.
+      </p>
 
       <h3>1.2 Comunicação Direta com APIs Oficiais</h3>
-      <p>Todas as operações de clonagem de pastas e catalogação HTML ocorrem <strong>direta e exclusivamente entre o navegador do usuário e os servidores oficiais da Google LLC</strong> (via Google Drive API v3 e Google Identity OAuth2).</p>
+      <p>Todas as operações de clonagem de pastas e catalogação HTML ocorrem <strong>direta e exclusivamente entre o
+          navegador do usuário e os servidores oficiais da Google LLC</strong> (via Google Drive API v3 e Google
+        Identity OAuth2).</p>
 
       <h3>1.3 Escopos e Permissões Utilizadas</h3>
       <ul>
-        <li><code>https://www.googleapis.com/auth/drive.readonly</code>: Permite listar arquivos e pastas compartilhadas para que o usuário possa escolher cloná-las ou visualizá-las em um catálogo.</li>
-        <li><code>https://www.googleapis.com/auth/drive.file</code>: Permite criar novas pastas e duplicar os arquivos selecionados no "Meu Drive" da conta Google do próprio usuário.</li>
-        <li><code>storage</code> e <code>unlimitedStorage</code>: Utilizadas exclusivamente para salvar localmente no navegador o progresso da cópia e os históricos de catálogos gerados.</li>
-        <li><code>alarms</code>: Utilizada para manter o Service Worker em execução contínua durante operações em lote.</li>
-        <li><code>downloads</code>: Utilizada unicamente para salvar o arquivo do catálogo HTML (.html) no computador do usuário quando ele clica no botão de download.</li>
+        <li><code>https://www.googleapis.com/auth/drive.readonly</code>: Permite listar arquivos e pastas compartilhadas
+          para que o usuário possa escolher cloná-las ou visualizá-las em um catálogo.</li>
+        <li><code>https://www.googleapis.com/auth/drive.file</code>: Permite criar novas pastas e duplicar os arquivos
+          selecionados no "Meu Drive" da conta Google do próprio usuário.</li>
+        <li><code>storage</code> e <code>unlimitedStorage</code>: Utilizadas exclusivamente para salvar localmente no
+          navegador o progresso da cópia e os históricos de catálogos gerados.</li>
+        <li><code>alarms</code>: Utilizada para manter o Service Worker em execução contínua durante operações em lote.
+        </li>
+        <li><code>downloads</code>: Utilizada unicamente para salvar o arquivo do catálogo HTML (.html) no computador do
+          usuário quando ele clica no botão de download.</li>
       </ul>
 
       <!-- ================= PARTE 2: TERMOS DE USO ================= -->
       <h2>📜 2. Termos de Uso</h2>
-      
+
       <h3>2.1 Aceitação dos Termos</h3>
-      <p>Ao instalar e utilizar o Copiador & Catalogador de Drive, você declara ter lido, compreendido e concordado integralmente com estes Termos de Uso.</p>
+      <p>Ao instalar e utilizar o Copiador & Catalogador de Drive, você declara ter lido, compreendido e concordado
+        integralmente com estes Termos de Uso.</p>
 
       <h3>2.2 Uso Legal e Ético</h3>
-      <p>O usuário compromete-se a utilizar a extensão em total conformidade com a legislação aplicável, os Termos de Serviço do Google Drive e as políticas de direitos autorais. É expressamente vedado o uso da extensão para:</p>
+      <p>O usuário compromete-se a utilizar a extensão em total conformidade com a legislação aplicável, os Termos de
+        Serviço do Google Drive e as políticas de direitos autorais. É expressamente vedado o uso da extensão para:</p>
       <ul>
-        <li>Copiar, disseminar ou catalogar materiais protegidos por direitos autorais sem a devida autorização do titular dos direitos.</li>
-        <li>Burlar permissões de acesso ou controles de segurança estabelecidos pelo proprietário original da pasta.</li>
+        <li>Copiar, disseminar ou catalogar materiais protegidos por direitos autorais sem a devida autorização do
+          titular dos direitos.</li>
+        <li>Burlar permissões de acesso ou controles de segurança estabelecidos pelo proprietário original da pasta.
+        </li>
         <li>Violar as políticas de cota de API ou diretrizes de uso aceitável da Google Cloud Platform.</li>
       </ul>
 
@@ -208,20 +229,32 @@
 
       <div class="disclaimer-box">
         <h3>⚠️ Declaração de Limitação de Responsabilidade do Desenvolvedor</h3>
-        <p><strong>3.1 Fornecimento "No Estado em que se Encontra" (AS IS):</strong> A extensão é disponibilizada gratuitamente como ferramenta utilitária "no estado em que se encontra", sem qualquer tipo de garantia, expressa ou implícita, incluindo garantias de comercialização, adequação a uma finalidade específica ou ausência de erros.</p>
-        
-        <p><strong>3.2 Responsabilidade Exclusiva do Usuário:</strong> O usuário é o único e exclusivo responsável por todo e qualquer arquivo, pasta ou conteúdo que decidir transferir, duplicar, baixar ou catalogar através da extensão.</p>
+        <p><strong>3.1 Fornecimento "No Estado em que se Encontra" (AS IS):</strong> A extensão é disponibilizada
+          gratuitamente como ferramenta utilitária "no estado em que se encontra", sem qualquer tipo de garantia,
+          expressa ou implícita, incluindo garantias de comercialização, adequação a uma finalidade específica ou
+          ausência de erros.</p>
 
-        <p><strong>3.3 Isenção por Danos ou Cotas:</strong> Em nenhuma hipótese o criador/desenvolvedor da extensão será responsabilizado por eventuais perdas de dados, corrupção de arquivos, suspensão de contas Google, limites de armazenamento excedidos no Google Drive, ou quaisquer danos diretos, indiretos ou consequentes decorrentes do uso ou da impossibilidade de uso do software.</p>
+        <p><strong>3.2 Responsabilidade Exclusiva do Usuário:</strong> O usuário é o único e exclusivo responsável por
+          todo e qualquer arquivo, pasta ou conteúdo que decidir transferir, duplicar, baixar ou catalogar através da
+          extensão.</p>
+
+        <p><strong>3.3 Isenção por Danos ou Cotas:</strong> Em nenhuma hipótese o criador/desenvolvedor da extensão será
+          responsabilizado por eventuais perdas de dados, corrupção de arquivos, suspensão de contas Google, limites de
+          armazenamento excedidos no Google Drive, ou quaisquer danos diretos, indiretos ou consequentes decorrentes do
+          uso ou da impossibilidade de uso do software.</p>
       </div>
 
       <h2>🏢 4. Vínculo e Direitos de Marcas</h2>
       <div class="trademark-note">
-        <p>Google Drive™, Google Chrome™ e Google Workspace™ são marcas registradas pertencentes à Google LLC. O desenvolvedor desta extensão é um desenvolvedor independente e não possui vínculo corporativo, patrocínio, afiliação direta ou endosso por parte da Google LLC.</p>
+        <p>Google Drive™, Google Chrome™ e Google Workspace™ são marcas registradas pertencentes à Google LLC. O
+          desenvolvedor desta extensão é um desenvolvedor independente e não possui vínculo corporativo, patrocínio,
+          afiliação direta ou endosso por parte da Google LLC.</p>
       </div>
 
       <h2>📬 5. Contato e Suporte</h2>
-      <p>Para dúvidas, suporte ou solicitações relacionadas a esta política, visite o repositório oficial no <a href="https://github.com/lyncolnsas/CopiadorDrive" target="_blank">GitHub</a> ou utilize a página de suporte na Chrome Web Store.</p>
+      <p>Para dúvidas, suporte ou solicitações relacionadas a esta política, visite o repositório oficial no <a
+          href="https://github.com/lyncolnsas/CopiadorDrive" target="_blank">GitHub</a> ou utilize a página de suporte
+        na Chrome Web Store.</p>
     </div>
 
     <footer>
@@ -229,4 +262,5 @@
     </footer>
   </div>
 </body>
+
 </html>

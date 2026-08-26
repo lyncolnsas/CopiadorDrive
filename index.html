@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Copiador de Drive - Clonador de Pastas do Google Drive</title>
-  <meta name="description" content="Clone e copie pastas compartilhadas do Google Drive diretamente para o seu Meu Drive de forma rápida, segura e 100% em nuvem.">
+  <title>Copiador & Catalogador de Drive</title>
+  <meta name="description" content="Clone pastas compartilhadas para o Meu Drive e gere Catálogos/Landing Pages HTML interativos com busca em tempo real e player de mídia.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
       --primary: #1a73e8;
       --primary-hover: #1557b0;
       --primary-light: #e8f0fe;
+      --accent: #7c3aed;
       --success: #1e8e3e;
       --text-main: #202124;
       --text-muted: #5f6368;
@@ -106,7 +107,7 @@
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 20px;
     }
 
@@ -119,13 +120,15 @@
     }
 
     .hero-section h1 span {
-      color: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-section p {
       font-size: 18px;
       color: var(--text-muted);
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto 30px;
     }
 
@@ -183,14 +186,14 @@
     }
 
     .features-title h2 {
-      font-size: 26px;
-      font-weight: 700;
+      font-size: 28px;
+      font-weight: 800;
       color: var(--text-main);
     }
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
     }
 
@@ -212,18 +215,18 @@
     }
 
     .feature-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
       background: var(--primary-light);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 24px;
     }
 
     .feature-card h3 {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
       color: var(--text-main);
     }
@@ -270,7 +273,7 @@
     <div class="nav-container">
       <a href="./" class="brand">
         <img src="icons/icon32.png" alt="Logo">
-        <span>Copiador de Drive</span>
+        <span>Copiador & Catalogador de Drive</span>
       </a>
       <nav class="nav-links">
         <a href="privacy.html">Política de Privacidade</a>
@@ -282,9 +285,9 @@
   <!-- Hero Section -->
   <main>
     <section class="hero-section">
-      <div class="badge-top">✨ Extensão para Google Chrome</div>
-      <h1>Clonagem Completa de Pastas do <span>Google Drive</span></h1>
-      <p>Copie e transfira pastas compartilhadas inteiras diretamente para o seu "Meu Drive" de forma 100% em nuvem, rápida e sem necessidade de download.</p>
+      <div class="badge-top">✨ Versão 1.1.0 • 2 Modos Inteligentes</div>
+      <h1>Clonador e Gerador de Catálogos do <span>Google Drive</span></h1>
+      <p>Copie pastas compartilhadas inteiras diretamente para o seu Meu Drive ou gere uma Landing Page HTML interativa com busca em tempo real e reprodutor de mídia.</p>
       
       <div class="hero-actions">
         <a href="https://github.com/lyncolnsas/CopiadorDrive" target="_blank" class="btn btn-primary">
@@ -299,26 +302,26 @@
     <!-- Features Section -->
     <section class="features-section">
       <div class="features-title">
-        <h2>Por que usar o Copiador de Drive?</h2>
+        <h2>Recursos em Destaque</h2>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">☁️</div>
-          <h3>Cópia Server-Side (Em Nuvem)</h3>
-          <p>Os arquivos são duplicados diretamente nos servidores do Google. Você não gasta sua conexão baixando ou subindo arquivos.</p>
+          <div class="feature-icon">🚀</div>
+          <h3>Clonagem Server-Side em Nuvem</h3>
+          <p>Duplique arquivos e pastas inteiras diretamente nos servidores do Google. Não consome sua banda nem exige downloads locais.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">📁</div>
-          <h3>Preservação Total da Árvore</h3>
-          <p>Todas as subpastas, arquivos e estruturas aninhadas são recriadas com precisão idêntica à pasta de origem.</p>
+          <div class="feature-icon">📄</div>
+          <h3>Catálogo / Landing Page HTML</h3>
+          <p>Gere um site completo offline da pasta com navegação em árvore, busca instantânea, contadores e player de vídeos e áudios.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">🔒</div>
-          <h3>100% Seguro & Privado</h3>
-          <p>Comunicação direta com as APIs oficiais do Google via OAuth2 nativo. Nenhum dado pessoal é transmitido a servidores externos.</p>
+          <h3>100% Seguro & Privado (OAuth2)</h3>
+          <p>Autenticação oficial do Google Workspace via OAuth2 nativo. Nenhum dado pessoal é transmitido a servidores externos.</p>
         </div>
       </div>
     </section>
@@ -326,7 +329,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 Copiador de Drive • <a href="privacy.html">Política de Privacidade</a> • Desenvolvido por <a href="https://github.com/lyncolnsas" target="_blank">lyncolnsas</a></p>
+    <p>© 2026 Copiador & Catalogador de Drive • <a href="privacy.html">Política de Privacidade</a> • Desenvolvido por <a href="https://github.com/lyncolnsas" target="_blank">lyncolnsas</a></p>
   </footer>
 </body>
 </html>

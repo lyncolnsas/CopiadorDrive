@@ -1,3 +1,17 @@
+// tab.js - Dashboard Avançado do Copiador & Catalogador de Drive
+
+function switchDashTab(tabName) {
+  document.querySelectorAll('.dash-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.dash-tab-btn').forEach(el => el.classList.remove('active'));
+
+  document.getElementById('dash-tab-' + tabName).classList.add('active');
+  document.getElementById('tab-btn-' + tabName).classList.add('active');
+
+  if (tabName === 'catalog') {
+    loadCatalogHistory();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const kpiCopied = document.getElementById('kpi-copied');
   const kpiPercent = document.getElementById('kpi-percent');
@@ -15,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const treeContainer = document.getElementById('tree-container');
   const treeCounter = document.getElementById('tree-counter');
   const clearLogsBtn = document.getElementById('clear-logs-btn');
-  const cancelBtn = document.getElementById('cancel-btn');
 
   let totalMappedItems = 0;
   const treeNodes = {};
@@ -71,7 +84,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Listener de Mensagens
+  // -------------------------------------------------------------
+  // Catalog History Loader
+  // -------------------------------------------------------------
+  function loadCatalogHistory() {
+    chrome.storage.local.get(['catalogHistory'], (res) => {
+      const history = res.catalogHistory || [];
+      const tbody = document.getElementById('catalog-history-body');
+      const emptyMsg = document.getElementById('catalog-empty-msg');
+      tbody.innerHTML = '';
+
+      if (history.length === 0) {
+        emptyMsg.style.display = 'block';
+      } else {
+        emptyMsg.style.display = 'none';
+        history.forEach((item, idx) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>
+              <strong>${escapeHtml(item.name || 'Catálogo Sem Título')}</strong>
+            </td>
+            <td>${escapeHtml(item.date || '--')}</td>
+            <td>${item.filesCount || 0} arquivos</td>
+            <td>${formatBytes(item.totalSize)}</td>
+            <td style="text-align: right;">
+              <button class="btn-table-action" onclick="previewCatalog()">
+                👁️ Visualizar
+              </button>
+              <button class="btn-table-action" onclick="downloadCatalog()">
+                💾 Baixar HTML
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    });
+  }
+
+  window.previewCatalog = function() {
+    chrome.runtime.sendMessage({ action: "OPEN_CATALOG_PREVIEW" });
+  };
+
+  window.downloadCatalog = function() {
+    chrome.runtime.sendMessage({ action: "DOWNLOAD_CATALOG" });
+  };
+
+  // -------------------------------------------------------------
+  // Message Listener
+  // -------------------------------------------------------------
   chrome.runtime.onMessage.addListener((message) => {
     if (message.action === "COPY_PROGRESS") {
       updateDashboard(message);
@@ -98,41 +159,31 @@ document.addEventListener('DOMContentLoaded', () => {
       indentEl.style.paddingLeft = '8px';
       indentEl.style.marginTop = '2px';
 
-      const itemEl = document.createElement('div');
-      itemEl.className = 'tree-item';
       const icon = item.isFolder ? '📁' : '📄';
-      itemEl.innerHTML = `<span>${icon}</span> <span>${escapeHtml(item.name)}</span>`;
+      indentEl.innerHTML = `<span style="font-size: 13px;">${icon} ${escapeHtml(item.name)}</span>`;
 
-      if (item.isFolder && item.id) {
+      parentEl.appendChild(indentEl);
+      if (item.isFolder) {
         treeNodes[item.id] = indentEl;
       }
-
-      indentEl.appendChild(itemEl);
-      parentEl.appendChild(indentEl);
-      treeContainer.scrollTop = treeContainer.scrollHeight;
     }
   });
 
-  // Limpar logs
   clearLogsBtn.addEventListener('click', () => {
-    logContainer.innerHTML = '<div class="log-entry log-info"><span class="log-time">[Sistema]</span> Terminal limpo pelo usuário.</div>';
+    logContainer.innerHTML = '<div class="log-entry log-info">[Terminal limpo pelo usuário]</div>';
   });
 
-  // Cancelar Cópia
-  cancelBtn.addEventListener('click', () => {
-    if (confirm("Deseja realmente interromper e cancelar a cópia em andamento?")) {
-      chrome.runtime.sendMessage({ action: "CANCEL_COPY" });
-    }
-  });
-
-  // Carrega estado inicial
-  chrome.runtime.sendMessage({ action: "GET_STATUS" }, (response) => {
-    if (response) {
-      updateDashboard(response);
-      if (response.logs && response.logs.length > 0) {
+  // Initial Status Request
+  chrome.runtime.sendMessage({ action: "GET_STATUS" }, (res) => {
+    if (res) {
+      updateDashboard(res);
+      if (res.logs && res.logs.length > 0) {
         logContainer.innerHTML = '';
-        response.logs.forEach(l => appendLog(l.text, l.type, l.time));
+        res.logs.forEach(l => appendLog(l.text, l.type, l.time));
       }
     }
   });
+
+  // Load catalog history if opened
+  loadCatalogHistory();
 });

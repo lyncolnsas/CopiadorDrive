@@ -1,27 +1,34 @@
 // Content Script injetado na página do Google Drive (drive.google.com)
 
 (() => {
-  // Evita injeção duplicada
   if (document.getElementById('drive-copier-fab')) return;
 
   const fab = document.createElement('div');
   fab.id = 'drive-copier-fab';
-  fab.innerHTML = '📋';
-  fab.title = 'Copiador de Drive - Clonar esta pasta';
+  fab.innerHTML = '⚡';
+  fab.title = 'Copiador & Catalogador de Drive';
 
   const panel = document.createElement('div');
   panel.id = 'drive-copier-panel';
   panel.innerHTML = `
     <div class="gdc-header">
       <span style="font-size: 18px;">📁</span>
-      <h3>Copiador de Drive</h3>
+      <h3>Copiador & Catalogador</h3>
     </div>
-    <p class="gdc-desc">Deseja clonar e transferir a pasta atualmente aberta para o seu <strong>Meu Drive</strong>?</p>
+    <p class="gdc-desc">Selecione uma ação para a pasta atualmente aberta:</p>
     <div id="gdc-folder-display" class="gdc-folder-info">Detectando pasta...</div>
-    <button id="gdc-start-btn" class="gdc-btn-primary">
-      <span>Copiar Esta Pasta</span>
-    </button>
-    <button id="gdc-hide-btn" class="gdc-btn-secondary">Ocultar Botão</button>
+    
+    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+      <button id="gdc-copy-btn" class="gdc-btn-primary">
+        <span>🚀 Clonar para Meu Drive</span>
+      </button>
+      <button id="gdc-catalog-btn" class="gdc-btn-secondary" style="background: #7c3aed; color: #ffffff; border: none;">
+        <span>📄 Gerar Catálogo HTML</span>
+      </button>
+      <button id="gdc-hide-btn" class="gdc-btn-secondary" style="margin-top: 4px; font-size: 11px;">
+        Ocultar Botão
+      </button>
+    </div>
   `;
 
   document.body.appendChild(fab);
@@ -42,20 +49,25 @@
   function updateFolderDisplay() {
     const folderId = getFolderIdFromUrl();
     const display = document.getElementById('gdc-folder-display');
-    const startBtn = document.getElementById('gdc-start-btn');
+    const copyBtn = document.getElementById('gdc-copy-btn');
+    const catalogBtn = document.getElementById('gdc-catalog-btn');
     
     if (folderId) {
       display.innerText = `ID: ${folderId}`;
       display.style.background = '#e8f0fe';
       display.style.color = '#1a73e8';
-      startBtn.disabled = false;
-      startBtn.style.opacity = '1';
+      copyBtn.disabled = false;
+      copyBtn.style.opacity = '1';
+      catalogBtn.disabled = false;
+      catalogBtn.style.opacity = '1';
     } else {
-      display.innerText = 'Abra uma pasta compartilhada para copiar.';
+      display.innerText = 'Abra uma pasta compartilhada para acionar.';
       display.style.background = '#fce8e6';
       display.style.color = '#d93025';
-      startBtn.disabled = true;
-      startBtn.style.opacity = '0.6';
+      copyBtn.disabled = true;
+      copyBtn.style.opacity = '0.6';
+      catalogBtn.disabled = true;
+      catalogBtn.style.opacity = '0.6';
     }
   }
 
@@ -65,14 +77,14 @@
 
     const toast = document.createElement('div');
     toast.id = 'drive-copier-toast';
-    toast.innerHTML = `<span>📋</span> <span>${message}</span>`;
+    toast.innerHTML = `<span>⚡</span> <span>${message}</span>`;
     document.body.appendChild(toast);
 
     setTimeout(() => {
       toast.style.opacity = '0';
       toast.style.transform = 'translateY(10px)';
       setTimeout(() => toast.remove(), 300);
-    }, 4000);
+    }, 4500);
   }
 
   fab.addEventListener('click', () => {
@@ -86,7 +98,7 @@
     showToast('Botão ocultado. Recarregue a página para exibi-lo novamente.');
   });
 
-  document.getElementById('gdc-start-btn').addEventListener('click', () => {
+  document.getElementById('gdc-copy-btn').addEventListener('click', () => {
     const folderId = getFolderIdFromUrl();
     if (folderId) {
       chrome.runtime.sendMessage({ 
@@ -96,11 +108,21 @@
         clearCopyOnly: false
       }, () => {
         panel.style.display = 'none';
-        showToast('Cópia iniciada em background! Acompanhe clicando no ícone da extensão.');
+        showToast('🚀 Cópia iniciada em segundo plano! Acompanhe no popup da extensão.');
       });
     }
   });
 
-  // Atualiza exibição quando a URL mudar (navegação SPA do Google Drive)
-  window.addEventListener('popstate', updateFolderDisplay);
+  document.getElementById('gdc-catalog-btn').addEventListener('click', () => {
+    const folderId = getFolderIdFromUrl();
+    if (folderId) {
+      chrome.runtime.sendMessage({ 
+        action: "START_CATALOG_SCAN", 
+        folderId: folderId
+      }, () => {
+        panel.style.display = 'none';
+        showToast('📄 Geração de Catálogo HTML iniciada! Abra o popup para baixar ou visualizar quando terminar.');
+      });
+    }
+  });
 })();

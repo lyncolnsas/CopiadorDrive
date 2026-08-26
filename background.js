@@ -1,4 +1,5 @@
-// Background Service Worker - Copiador de Drive (Manifest V3)
+// Background Service Worker - Copiador & Catalogador de Drive (Manifest V3)
+importScripts('catalog-engine.js');
 
 let activeProcesses = 0;
 let apiQueue = Promise.resolve();
@@ -13,6 +14,25 @@ let currentStatus = {
   startTime: null,
   activeScans: []
 };
+
+let currentCatalogStatus = {
+  isScanning: false,
+  status: "Inativo",
+  folderId: null,
+  folderName: "",
+  totalFiles: 0,
+  totalFolders: 0,
+  totalSize: 0,
+  htmlData: null
+};
+
+function broadcastCatalogProgress() {
+  chrome.runtime.sendMessage({ 
+    action: "CATALOG_PROGRESS", 
+    ...currentCatalogStatus 
+  }).catch(() => {});
+  chrome.storage.local.set({ activeCatalogStatus: currentCatalogStatus }).catch(() => {});
+}
 
 // Intervalo de segurança entre requisições para evitar rate limit (cota) da API do Google Drive
 const API_DELAY_MS = 300;
@@ -208,7 +228,7 @@ async function listFiles(folderId) {
   let pageToken = null;
   do {
     let query = `'${folderId}' in parents and trashed = false`;
-    let endpoint = `/files?q=${encodeURIComponent(query)}&fields=nextPageToken,files(id,name,mimeType,size,shortcutDetails)&pageSize=1000&includeItemsFromAllDrives=true&corpora=allDrives`;
+    let endpoint = `/files?q=${encodeURIComponent(query)}&fields=nextPageToken,files(id,name,mimeType,size,shortcutDetails,hasThumbnail,thumbnailLink,videoMediaMetadata,webContentLink,webViewLink)&pageSize=1000&includeItemsFromAllDrives=true&corpora=allDrives`;
     if (pageToken) {
       endpoint += `&pageToken=${pageToken}`;
     }
@@ -541,7 +561,85 @@ async function scanAndPrepareCopy(initialFolderId, forceFresh = false, clearCopy
 }
 
 // -------------------------------------------------------------
-// Message Listener
+// Geração de Catálogo / Landing Page HTML
+// -------------------------------------------------------------
+async function scanAndGenerateCatalog(folderId, customTitle) {
+  currentCatalogStatus = {
+    isScanning: true,
+    status: "Iniciando mapeamento da pasta para catálogo...",
+    folderId: folderId,
+    folderName: customTitle || "Carregando...",
+    totalFiles: 0,
+    totalFolders: 0,
+    totalSize: 0,
+    htmlData: null
+  };
+  broadcastCatalogProgress();
+  
+  activeProcesses++;
+  updateKeepAlive();
+  
+  try {
+    const rootName = await getFolderName(folderId);
+    currentCatalogStatus.folderName = customTitle || rootName;
+    currentCatalogStatus.status = `Mapeando arquivos de "${currentCatalogStatus.folderName}"...`;
+    broadcastCatalogProgress();
+    
+    const stats = { count: 0, size: 0 };
+    const visited = new Set();
+    const tree = await buildTreeRecursive(folderId, currentCatalogStatus.folderName, folderId, stats, visited);
+    
+    currentCatalogStatus.status = "Compilando Landing Page / Catálogo HTML...";
+    broadcastCatalogProgress();
+    
+    const token = await getAuthToken(false).catch(() => "");
+    const catalogHtml = generateHtmlCatalog(tree, token, currentCatalogStatus.folderName);
+    
+    currentCatalogStatus.isScanning = false;
+    currentCatalogStatus.status = "Catálogo gerado com sucesso!";
+    currentCatalogStatus.totalFiles = stats.count;
+    currentCatalogStatus.totalSize = stats.size;
+    currentCatalogStatus.htmlData = catalogHtml;
+    
+    // Salva no histórico de catálogos recentes
+    const historyRes = await new Promise(resolve => chrome.storage.local.get(['catalogHistory'], resolve));
+    const history = historyRes.catalogHistory || [];
+    history.unshift({
+      id: folderId,
+      name: currentCatalogStatus.folderName,
+      date: new Date().toLocaleString(),
+      filesCount: stats.count,
+      totalSize: stats.size
+    });
+    if (history.length > 20) history.pop();
+    
+    await new Promise(resolve => chrome.storage.local.set({ 
+      catalogHistory: history,
+      lastGeneratedCatalog: {
+        id: folderId,
+        name: currentCatalogStatus.folderName,
+        html: catalogHtml,
+        date: new Date().toLocaleString(),
+        filesCount: stats.count,
+        totalSize: stats.size
+      }
+    }, resolve));
+    
+    broadcastCatalogProgress();
+    return catalogHtml;
+  } catch (err) {
+    currentCatalogStatus.isScanning = false;
+    currentCatalogStatus.status = `Erro ao gerar catálogo: ${err.message}`;
+    broadcastCatalogProgress();
+    throw err;
+  } finally {
+    activeProcesses--;
+    updateKeepAlive();
+  }
+}
+
+// -------------------------------------------------------------
+// Message Listener Unificado
 // -------------------------------------------------------------
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "START_COPY") {
@@ -598,6 +696,47 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     addLog("⏹️ Processo cancelado pelo usuário.", "error");
     broadcastProgress();
     sendResponse({ success: true });
+  }
+  else if (message.action === "START_CATALOG_SCAN") {
+    scanAndGenerateCatalog(message.folderId, message.customTitle)
+      .then(html => sendResponse({ success: true, htmlLength: html.length }))
+      .catch(err => sendResponse({ success: false, error: err.message }));
+    return true;
+  }
+  else if (message.action === "GET_CATALOG_STATUS") {
+    sendResponse(currentCatalogStatus);
+  }
+  else if (message.action === "DOWNLOAD_CATALOG") {
+    chrome.storage.local.get(['lastGeneratedCatalog'], (res) => {
+      const cat = res.lastGeneratedCatalog;
+      if (cat && cat.html) {
+        const safeName = (cat.name || "Catalogo").replace(/[^a-zA-Z0-9_\- ]/g, "_");
+        const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(cat.html);
+        chrome.downloads.download({
+          url: dataUrl,
+          filename: `${safeName} - Catalogo Interativo.html`,
+          saveAs: true
+        }, (downloadId) => {
+          sendResponse({ success: !chrome.runtime.lastError, downloadId });
+        });
+      } else {
+        sendResponse({ success: false, error: "Nenhum catálogo gerado recentemente." });
+      }
+    });
+    return true;
+  }
+  else if (message.action === "OPEN_CATALOG_PREVIEW") {
+    chrome.storage.local.get(['lastGeneratedCatalog'], (res) => {
+      const cat = res.lastGeneratedCatalog;
+      if (cat && cat.html) {
+        const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(cat.html);
+        chrome.tabs.create({ url: dataUrl });
+        sendResponse({ success: true });
+      } else {
+        sendResponse({ success: false, error: "Nenhum catálogo disponível para visualização." });
+      }
+    });
+    return true;
   }
   else if (message.action === "GET_STATUS") {
     sendResponse(currentStatus);

@@ -1,195 +1,300 @@
+// popup.js - Copiador & Catalogador de Drive
+
+let currentMode = 'copy'; // 'copy' | 'catalog'
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Elements
   const authSection = document.getElementById('auth-section');
   const appSection = document.getElementById('app-section');
-  const authBadge = document.getElementById('auth-status-badge');
-  const authBadgeText = document.getElementById('auth-badge-text');
-  
   const loginBtn = document.getElementById('login-btn');
   const logoutBtn = document.getElementById('logout-btn');
+  const authBadge = document.getElementById('auth-status-badge');
+  const authBadgeText = document.getElementById('auth-badge-text');
+
+  // Mode Tabs
+  const tabModeCopy = document.getElementById('tab-mode-copy');
+  const tabModeCatalog = document.getElementById('tab-mode-catalog');
+  const copyViewPanel = document.getElementById('copy-view-panel');
+  const catalogViewPanel = document.getElementById('catalog-view-panel');
+
+  // Copy Elements
+  const folderInput = document.getElementById('folder-input');
+  const detectedCount = document.getElementById('detected-count');
+  const forceFresh = document.getElementById('force-fresh');
+  const clearCopyOnly = document.getElementById('clear-copy-only');
   const startBtn = document.getElementById('start-btn');
   const cancelBtn = document.getElementById('cancel-btn');
   const openTabBtn = document.getElementById('open-tab-btn');
-  
-  const folderInput = document.getElementById('folder-input');
-  const detectedCount = document.getElementById('detected-count');
-  
+
+  // Copy Progress
   const progressContainer = document.getElementById('progress-container');
   const statusText = document.getElementById('status-text');
   const progressBarFill = document.getElementById('progress-bar-fill');
   const progressDetails = document.getElementById('progress-details');
   const progressEta = document.getElementById('progress-eta');
 
-  function setAuthState(isAuthenticated) {
-    if (isAuthenticated) {
-      authSection.classList.add('hidden');
-      appSection.classList.remove('hidden');
-      authBadge.className = 'badge badge-online';
-      authBadgeText.innerText = 'Conectado';
-    } else {
-      authSection.classList.remove('hidden');
-      appSection.classList.add('hidden');
-      authBadge.className = 'badge badge-offline';
-      authBadgeText.innerText = 'Desconectado';
-    }
-  }
+  // Catalog Elements
+  const catalogTitleInput = document.getElementById('catalog-title-input');
+  const startCatalogBtn = document.getElementById('start-catalog-btn');
+  const catalogProgressContainer = document.getElementById('catalog-progress-container');
+  const catalogStatusText = document.getElementById('catalog-status-text');
+  const catalogSpinner = document.getElementById('catalog-spinner');
+  const catalogReadyActions = document.getElementById('catalog-ready-actions');
+  const previewCatalogBtn = document.getElementById('preview-catalog-btn');
+  const downloadCatalogBtn = document.getElementById('download-catalog-btn');
 
-  function checkAuth() {
+  // -------------------------------------------------------------
+  // Mode Switching
+  // -------------------------------------------------------------
+  tabModeCopy.addEventListener('click', () => {
+    currentMode = 'copy';
+    tabModeCopy.classList.add('active');
+    tabModeCatalog.classList.remove('active');
+    copyViewPanel.classList.remove('hidden');
+    catalogViewPanel.classList.add('hidden');
+  });
+
+  tabModeCatalog.addEventListener('click', () => {
+    currentMode = 'catalog';
+    tabModeCatalog.classList.add('active');
+    tabModeCopy.classList.remove('active');
+    catalogViewPanel.classList.remove('hidden');
+    copyViewPanel.classList.add('hidden');
+  });
+
+  // -------------------------------------------------------------
+  // Check Auth State
+  // -------------------------------------------------------------
+  function checkAuthState() {
     chrome.runtime.sendMessage({ action: "GET_AUTH_STATE" }, (response) => {
       if (response && response.authenticated) {
-        setAuthState(true);
+        setAuthUI(true);
       } else {
-        setAuthState(false);
+        setAuthUI(false);
       }
     });
   }
 
-  checkAuth();
+  function setAuthUI(isLoggedIn) {
+    if (isLoggedIn) {
+      authBadge.className = 'badge badge-online';
+      authBadgeText.innerText = 'Conectado';
+      authSection.classList.add('hidden');
+      appSection.classList.remove('hidden');
+      autoFillCurrentTab();
+      pollStatus();
+      pollCatalogStatus();
+    } else {
+      authBadge.className = 'badge badge-offline';
+      authBadgeText.innerText = 'Desconectado';
+      authSection.classList.remove('hidden');
+      appSection.classList.add('hidden');
+    }
+  }
 
-  // Login 1-clique oficial (chrome.identity)
+  // -------------------------------------------------------------
+  // Auto-detect Active Tab Folder
+  // -------------------------------------------------------------
+  function autoFillCurrentTab() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs && tabs[0] && tabs[0].url) {
+        const url = tabs[0].url;
+        const match = url.match(/folders\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          folderInput.value = match[1];
+          updateDetectedCount();
+        }
+      }
+    });
+  }
+
+  function extractFolderIds(text) {
+    if (!text) return [];
+    const lines = text.split('\n');
+    const ids = [];
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed) return;
+      const urlMatch = trimmed.match(/folders\/([a-zA-Z0-9_-]+)/);
+      if (urlMatch) {
+        ids.push(urlMatch[1]);
+      } else if (/^[a-zA-Z0-9_-]{15,45}$/.test(trimmed)) {
+        ids.push(trimmed);
+      }
+    });
+    return Array.from(new Set(ids));
+  }
+
+  function updateDetectedCount() {
+    const ids = extractFolderIds(folderInput.value);
+    detectedCount.innerText = `${ids.length} detectado(s)`;
+  }
+
+  folderInput.addEventListener('input', updateDetectedCount);
+
+  // -------------------------------------------------------------
+  // Copy Actions
+  // -------------------------------------------------------------
+  startBtn.addEventListener('click', () => {
+    const ids = extractFolderIds(folderInput.value);
+    if (ids.length === 0) {
+      alert('Por favor, cole pelo menos um link ou ID válido de pasta do Google Drive.');
+      return;
+    }
+
+    startBtn.classList.add('hidden');
+    cancelBtn.classList.remove('hidden');
+    progressContainer.classList.remove('hidden');
+
+    chrome.runtime.sendMessage({
+      action: "START_COPY",
+      folderIds: ids,
+      forceFresh: forceFresh.checked,
+      clearCopyOnly: clearCopyOnly.checked
+    });
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    chrome.runtime.sendMessage({ action: "CANCEL_COPY" }, () => {
+      startBtn.classList.remove('hidden');
+      cancelBtn.classList.add('hidden');
+    });
+  });
+
+  // -------------------------------------------------------------
+  // Catalog Actions
+  // -------------------------------------------------------------
+  startCatalogBtn.addEventListener('click', () => {
+    const ids = extractFolderIds(folderInput.value);
+    if (ids.length === 0) {
+      alert('Por favor, cole um link ou ID válido da pasta do Google Drive para gerar o catálogo.');
+      return;
+    }
+
+    const folderId = ids[0];
+    const customTitle = catalogTitleInput.value.trim();
+
+    startCatalogBtn.disabled = true;
+    startCatalogBtn.innerText = 'Mapeando Pasta...';
+    catalogProgressContainer.classList.remove('hidden');
+    catalogReadyActions.classList.add('hidden');
+    catalogSpinner.classList.remove('hidden');
+    catalogStatusText.innerText = 'Iniciando escaneamento...';
+
+    chrome.runtime.sendMessage({
+      action: "START_CATALOG_SCAN",
+      folderId: folderId,
+      customTitle: customTitle
+    }, (res) => {
+      startCatalogBtn.disabled = false;
+      startCatalogBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg> Gerar Catálogo HTML';
+    });
+  });
+
+  previewCatalogBtn.addEventListener('click', () => {
+    chrome.runtime.sendMessage({ action: "OPEN_CATALOG_PREVIEW" });
+  });
+
+  downloadCatalogBtn.addEventListener('click', () => {
+    chrome.runtime.sendMessage({ action: "DOWNLOAD_CATALOG" });
+  });
+
+  // -------------------------------------------------------------
+  // Progress Listeners
+  // -------------------------------------------------------------
+  chrome.runtime.onMessage.addListener((message) => {
+    if (message.action === "COPY_PROGRESS") {
+      updateCopyUI(message);
+    } else if (message.action === "CATALOG_PROGRESS") {
+      updateCatalogUI(message);
+    }
+  });
+
+  function pollStatus() {
+    chrome.runtime.sendMessage({ action: "GET_STATUS" }, (res) => {
+      if (res) updateCopyUI(res);
+    });
+  }
+
+  function pollCatalogStatus() {
+    chrome.runtime.sendMessage({ action: "GET_CATALOG_STATUS" }, (res) => {
+      if (res) updateCatalogUI(res);
+    });
+  }
+
+  function updateCopyUI(status) {
+    if (status.status && status.status !== "Inativo") {
+      progressContainer.classList.remove('hidden');
+      statusText.innerText = status.status;
+
+      if (status.total > 0) {
+        const pct = Math.min(100, Math.round((status.copied / status.total) * 100));
+        progressBarFill.style.width = pct + '%';
+        progressDetails.innerText = `${status.copied} / ${status.total} (${pct}%)`;
+      } else {
+        progressBarFill.style.width = '100%';
+        progressDetails.innerText = `${status.copied} itens`;
+      }
+
+      if (status.eta) {
+        progressEta.innerText = `ETA: ${status.eta}`;
+      } else {
+        progressEta.innerText = '';
+      }
+
+      if (status.activeScans && status.activeScans.length > 0) {
+        startBtn.classList.add('hidden');
+        cancelBtn.classList.remove('hidden');
+      } else {
+        startBtn.classList.remove('hidden');
+        cancelBtn.classList.add('hidden');
+      }
+    }
+  }
+
+  function updateCatalogUI(status) {
+    if (status.isScanning) {
+      catalogProgressContainer.classList.remove('hidden');
+      catalogStatusText.innerText = status.status;
+      catalogSpinner.classList.remove('hidden');
+      catalogReadyActions.classList.add('hidden');
+    } else if (status.htmlData) {
+      catalogProgressContainer.classList.remove('hidden');
+      catalogStatusText.innerText = `🎉 ${status.folderName || 'Catálogo'} pronto! (${status.totalFiles} arquivos)`;
+      catalogSpinner.classList.add('hidden');
+      catalogReadyActions.classList.remove('hidden');
+    }
+  }
+
+  // -------------------------------------------------------------
+  // Other Controls
+  // -------------------------------------------------------------
+  openTabBtn.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('tab.html') });
+  });
+
   loginBtn.addEventListener('click', () => {
     loginBtn.disabled = true;
-    loginBtn.innerText = 'Conectando ao Google...';
-    
+    loginBtn.innerText = 'Autenticando...';
     chrome.identity.getAuthToken({ interactive: true }, (token) => {
       loginBtn.disabled = false;
-      loginBtn.innerHTML = `
-        <svg class="google-icon" width="18" height="18" viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-        </svg>
-        Conectar com Google
-      `;
-      if (chrome.runtime.lastError || !token) {
-        alert("Não foi possível conectar: " + (chrome.runtime.lastError?.message || "Autorização cancelada."));
-        return;
+      loginBtn.innerHTML = 'Conectar com Google';
+      if (token) {
+        chrome.storage.local.set({ authToken: token }, () => {
+          checkAuthState();
+        });
+      } else {
+        alert('Não foi possível autenticar. Verifique sua conexão e tente novamente.');
       }
-      setAuthState(true);
     });
   });
 
   logoutBtn.addEventListener('click', () => {
-    if (confirm("Deseja realmente desconectar sua conta?")) {
-      chrome.runtime.sendMessage({ action: "LOGOUT" }, () => {
-        setAuthState(false);
-      });
-    }
-  });
-
-  // Detector de links em tempo real
-  function parseFolderIds() {
-    const text = folderInput.value.trim();
-    if (!text) return [];
-    
-    const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-    const folderIds = [];
-    
-    for (const line of lines) {
-      let folderId = line;
-      const match = line.match(/folders\/([a-zA-Z0-9-_]+)/);
-      if (match) {
-        folderId = match[1];
-      } else if (line.includes("id=")) {
-        const urlParams = new URLSearchParams(line.split('?')[1]);
-        if (urlParams.has("id")) folderId = urlParams.get("id");
-      }
-      if (folderId && folderId.length > 5) {
-        folderIds.push(folderId);
-      }
-    }
-    return folderIds;
-  }
-
-  folderInput.addEventListener('input', () => {
-    const ids = parseFolderIds();
-    detectedCount.innerText = `${ids.length} detectado(s)`;
-  });
-
-  // Iniciar Cópia
-  startBtn.addEventListener('click', () => {
-    const folderIds = parseFolderIds();
-    if (folderIds.length === 0) {
-      alert("Por favor, insira ao menos um link ou ID válido de pasta do Google Drive.");
-      folderInput.focus();
-      return;
-    }
-
-    progressContainer.classList.remove('hidden');
-    startBtn.classList.add('hidden');
-    cancelBtn.classList.remove('hidden');
-    statusText.innerText = `Iniciando fila com ${folderIds.length} pasta(s)...`;
-    
-    const forceFresh = document.getElementById('force-fresh').checked;
-    const clearCopyOnly = document.getElementById('clear-copy-only').checked;
-    
-    chrome.runtime.sendMessage({ 
-      action: "START_COPY", 
-      folderIds: folderIds, 
-      forceFresh: forceFresh, 
-      clearCopyOnly: clearCopyOnly 
+    chrome.runtime.sendMessage({ action: "LOGOUT" }, () => {
+      setAuthUI(false);
     });
   });
 
-  // Cancelar Cópia
-  cancelBtn.addEventListener('click', () => {
-    if (confirm("Tem certeza que deseja cancelar a cópia em andamento?")) {
-      chrome.runtime.sendMessage({ action: "CANCEL_COPY" });
-      cancelBtn.classList.add('hidden');
-      startBtn.classList.remove('hidden');
-    }
-  });
-
-  // Abrir aba de acompanhamento
-  openTabBtn.addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL("tab.html") });
-  });
-
-  function formatBytes(bytes) {
-    if (!+bytes) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
-  }
-
-  // Listener de Progresso
-  chrome.runtime.onMessage.addListener((message) => {
-    if (message.action === "COPY_PROGRESS") {
-      if (message.status && message.status !== "Inativo") {
-        progressContainer.classList.remove('hidden');
-        statusText.innerText = message.status;
-        
-        const percent = message.total > 0 ? Math.round((message.copied / message.total) * 100) : 0;
-        progressBarFill.style.width = percent + "%";
-        
-        let detailsText = `${message.copied} / ${message.total} itens`;
-        if (message.totalBytes) {
-          detailsText += ` (${formatBytes(message.totalBytes)})`;
-        }
-        progressDetails.innerText = detailsText;
-        progressEta.innerText = message.eta ? `ETA: ${message.eta}` : '';
-
-        const isRunning = message.activeScans && (message.activeScans.length > 0 || message.copied < message.total);
-        if (isRunning && message.total > 0) {
-          startBtn.classList.add('hidden');
-          cancelBtn.classList.remove('hidden');
-        } else {
-          startBtn.classList.remove('hidden');
-          cancelBtn.classList.add('hidden');
-        }
-      }
-    }
-  });
-
-  // Sincroniza status inicial
-  chrome.runtime.sendMessage({ action: "GET_STATUS" }, (status) => {
-    if (status && status.status && status.status !== "Inativo") {
-      progressContainer.classList.remove('hidden');
-      statusText.innerText = status.status;
-      const percent = status.total > 0 ? Math.round((status.copied / status.total) * 100) : 0;
-      progressBarFill.style.width = percent + "%";
-      progressDetails.innerText = `${status.copied} / ${status.total} itens`;
-    }
-  });
+  // Init
+  checkAuthState();
 });

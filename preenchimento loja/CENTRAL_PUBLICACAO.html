@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Central de Publicação - Copiador de Drive</title>
+  <title>Central de Publicação - Copiador & Catalogador de Drive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
       --primary: #1a73e8;
       --primary-hover: #1557b0;
       --primary-light: #e8f0fe;
+      --accent: #7c3aed;
       --success: #1e8e3e;
       --success-hover: #137333;
       --success-light: #e6f4ea;
@@ -287,7 +288,7 @@
     .field-box.multiline {
       white-space: pre-wrap;
       font-family: inherit;
-      max-height: 300px;
+      max-height: 320px;
       overflow-y: auto;
       display: block;
       padding-right: 14px;
@@ -590,7 +591,7 @@
         <h1>🚀 Central de Publicação da Extensão</h1>
         <p>Painel unificado com Guia Passo a Passo, Detalhes da Loja e Respostas de Privacidade.</p>
       </div>
-      <div class="hero-badge">Copiador de Drive • v1.0.0</div>
+      <div class="hero-badge">Copiador & Catalogador • v1.1.0</div>
     </header>
 
     <!-- Navigation Tabs -->
@@ -630,38 +631,19 @@
         <div class="card-header">
           <div class="card-title-left">
             <div class="step-badge">1</div>
-            <h2>Criar o Rascunho e Obter o ID de 32 Letras na Loja</h2>
+            <h2>Obter o ID de 32 Letras na Loja</h2>
           </div>
           <label class="step-checkbox">
-            <input type="checkbox" class="step-check-input" onchange="updateProgress()">
+            <input type="checkbox" class="step-check-input" checked onchange="updateProgress()">
             <span>Concluído</span>
           </label>
         </div>
 
-        <p>Acesse o Chrome Developer Dashboard para iniciar o item:</p>
-        <p><a href="https://chrome.google.com/webstore/devconsole" target="_blank" class="btn-link">Abrir Chrome Developer Dashboard ↗</a></p>
-
-        <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
-          <li>Se for sua primeira vez, pague a taxa única de desenvolvedor do Google ($5 USD).</li>
-          <li>Clique no botão azul <strong>"Novo item"</strong> (New item).</li>
-          <li>Faça upload do arquivo <span class="tag">CopiadorDrive.zip</span> da pasta do projeto.</li>
-          <li><strong>NÃO publique ainda</strong>. Copie o seu <strong>ID da Extensão</strong> de 32 letras:</li>
-        </ol>
-
-        <div style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
-          <strong style="color: var(--primary);">🔍 Como localizar o ID de 32 letras:</strong>
-          
-          <div>
-            <strong>🌟 Forma 1 (Pela barra de endereços):</strong>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Na URL da página no topo do navegador, copie o código de 32 letras:</p>
-            <code style="font-size: 11px; background: #e8eaed; padding: 4px 8px; border-radius: 4px; display: block; margin-top: 4px; word-break: break-all;">https://chrome.google.com/webstore/devconsole/.../<strong>hdnkipbaihealfmhnndogbjjbhienog</strong>/edit</code>
-          </div>
-
-          <div>
-            <strong>📋 Forma 2 (Direto no painel da loja):</strong>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">No topo ou na aba lateral esquerda da loja, você verá:</p>
-            <p style="font-size: 13px; font-weight: 600; color: var(--text-main); margin-top: 2px;"><strong>Código:</strong> <span class="copy-chip">hdnkipbaihealfmhnndogbjjbhienog</span> <button class="btn-copy-chip" onclick="copyVal('hdnkipbaihealfmhnndogbjjbhienog', this)">Copiar</button></p>
-          </div>
+        <p>O seu ID permanente de 32 letras no Chrome Developer Dashboard é:</p>
+        <div style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 8px; padding: 14px;">
+          <p style="font-size: 13px; font-weight: 600; color: var(--text-main);"><strong>ID Oficial da Extensão:</strong></p>
+          <span class="copy-chip" style="font-size: 14px; font-weight: bold;">hdnkipbaihealfmhnndogbjjbhienog</span>
+          <button class="btn-copy-chip" onclick="copyVal('hdnkipbaihealfmhnndogbjjbhienog', this)">Copiar ID</button>
         </div>
       </section>
 
@@ -670,81 +652,21 @@
         <div class="card-header">
           <div class="card-title-left">
             <div class="step-badge">2</div>
-            <h2>Configurar OAuth no Google Cloud Console</h2>
+            <h2>Configuração OAuth no Google Cloud Console</h2>
           </div>
           <label class="step-checkbox">
-            <input type="checkbox" class="step-check-input" onchange="updateProgress()">
+            <input type="checkbox" class="step-check-input" checked onchange="updateProgress()">
             <span>Concluído</span>
           </label>
         </div>
 
-        <p>Acesse o Google Cloud Console:</p>
-        <p><a href="https://console.cloud.google.com/" target="_blank" class="btn-link">Abrir Google Cloud Console ↗</a></p>
-
-        <div class="alert alert-info">
-          <span>💡 <strong>Dica sobre o Projeto:</strong> No topo da página (ao lado de "Google Cloud"), verifique o nome do projeto selecionado (ex: <code>Calendar</code> ou <code>Copiador de Drive</code>).</span>
-        </div>
-
-        <div class="alert alert-warning">
-          <span>⚡ <strong>Ativação da API:</strong> Na barra de pesquisa superior, digite <strong>"Google Drive API"</strong> e clique em <strong>"Ativar"</strong>.</span>
-        </div>
-
-        <h4 style="font-size: 14px; color: var(--text-main); margin-top: 6px;">Siga as 4 etapas no menu "Google Auth Platform":</h4>
+        <p>Configurações oficiais salvas no Google Cloud:</p>
         
-        <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 14px; font-size: 13.5px;">
-          <li>
-            <strong>1. Branding (Marca / Tela de Consentimento):</strong>
-            <ul style="padding-left: 16px; margin-top: 4px; display: flex; flex-direction: column; gap: 6px;">
-              <li><strong>Nome do app:</strong> <span class="copy-chip">Copiador de Drive</span> <button class="btn-copy-chip" onclick="copyVal('Copiador de Drive', this)">Copiar</button></li>
-              <li><strong>E-mail de suporte:</strong> Selecione seu e-mail.</li>
-              <li><strong>Página inicial do aplicativo:</strong> <br><span class="copy-chip">https://lyncolnsas.github.io/CopiadorDrive/</span> <button class="btn-copy-chip" onclick="copyVal('https://lyncolnsas.github.io/CopiadorDrive/', this)">Copiar</button></li>
-              <li><strong>Link da Política de Privacidade:</strong> <br><span class="copy-chip">https://lyncolnsas.github.io/CopiadorDrive/privacy.html</span> <button class="btn-copy-chip" onclick="copyVal('https://lyncolnsas.github.io/CopiadorDrive/privacy.html', this)">Copiar</button></li>
-              <li><strong>Domínios autorizados:</strong>
-                <ul style="padding-left: 16px; margin-top: 4px;">
-                  <li>Mantenha: <span class="tag">chromiumapp.org</span></li>
-                  <li>Clique em <strong>+ Adicionar domínio</strong> e cole: <br><span class="copy-chip">lyncolnsas.github.io</span> <button class="btn-copy-chip" onclick="copyVal('lyncolnsas.github.io', this)">Copiar</button></li>
-                </ul>
-              </li>
-              <li><strong>Contato do desenvolvedor:</strong> Digite seu e-mail e clique no botão azul <strong>Salvar</strong>.</li>
-            </ul>
-          </li>
-
-          <li>
-            <strong>2. Público-alvo:</strong>
-            <ul style="padding-left: 16px; margin-top: 4px;">
-              <li>Certifique-se de que está marcado como <strong>Externo</strong>.</li>
-            </ul>
-          </li>
-
-          <li>
-            <strong>3. Acesso a dados (Escopos da API):</strong>
-            <ul style="padding-left: 16px; margin-top: 4px;">
-              <li>Clique em <strong>`Acesso a dados`</strong> no menu lateral e depois em <strong>"Adicionar ou remover escopos"</strong>.</li>
-              <li>Role até o final da janela lateral direita até o campo <em>"Adicionar escopos manualmente"</em>, cole os dois escopos e clique em <em>"Adicionar à tabela"</em>:
-                <div style="margin: 6px 0;">
-                  <span class="copy-chip">https://www.googleapis.com/auth/drive.readonly</span>
-                  <button class="btn-copy-chip" onclick="copyVal('https://www.googleapis.com/auth/drive.readonly', this)">Copiar</button>
-                </div>
-                <div style="margin: 6px 0;">
-                  <span class="copy-chip">https://www.googleapis.com/auth/drive.file</span>
-                  <button class="btn-copy-chip" onclick="copyVal('https://www.googleapis.com/auth/drive.file', this)">Copiar</button>
-                </div>
-              </li>
-              <li>Clique no botão azul <strong>"Atualizar"</strong> no final da janela lateral.</li>
-            </ul>
-          </li>
-
-          <li>
-            <strong>4. Clientes (Gerar o Client ID da Extensão):</strong>
-            <ul style="padding-left: 16px; margin-top: 4px;">
-              <li>No menu lateral esquerdo, clique em <strong>`Clientes`</strong> (ou <em>Credenciais</em>).</li>
-              <li>Clique em <strong>"+ CRIAR CLIENTE"</strong>.</li>
-              <li>Tipo de aplicativo: <strong>Extensão do Chrome</strong>.</li>
-              <li>Nome: <span class="tag">Copiador de Drive</span></li>
-              <li>ID do item: Cole <span class="copy-chip">hdnkipbaihealfmhnndogbjjbhienog</span> <button class="btn-copy-chip" onclick="copyVal('hdnkipbaihealfmhnndogbjjbhienog', this)">Copiar</button></li>
-              <li>Clique em <strong>Criar</strong> e copie o <strong>ID do Cliente</strong> gerado!</li>
-            </ul>
-          </li>
+        <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px;">
+          <li><strong>Branding:</strong> Nome <code>Copiador de Drive</code>, Política <code>https://lyncolnsas.github.io/CopiadorDrive/privacy.html</code>, Domínios <code>chromiumapp.org</code> e <code>lyncolnsas.github.io</code>.</li>
+          <li><strong>Público-alvo:</strong> <code>Externo</code>.</li>
+          <li><strong>Escopos:</strong> <code>drive.readonly</code> e <code>drive.file</code>.</li>
+          <li><strong>Clientes:</strong> Extensão vinculada ao ID <code>hdnkipbaihealfmhnndogbjjbhienog</code>.</li>
         </ol>
       </section>
 
@@ -753,7 +675,7 @@
         <div class="card-header">
           <div class="card-title-left">
             <div class="step-badge">3</div>
-            <h2>Client ID Configurado no manifest.json</h2>
+            <h2>Client ID Oficial no manifest.json (v1.1.0)</h2>
           </div>
           <label class="step-checkbox">
             <input type="checkbox" class="step-check-input" checked onchange="updateProgress()">
@@ -761,7 +683,7 @@
           </label>
         </div>
 
-        <p>O seu Client ID oficial já foi inserido diretamente no arquivo <strong><code>manifest.json</code></strong>:</p>
+        <p>O seu Client ID oficial está configurado no <strong><code>manifest.json</code></strong>:</p>
         
         <div class="code-block">
           <pre><code>"oauth2": {
@@ -772,10 +694,6 @@
   ]
 }</code></pre>
         </div>
-
-        <div class="alert alert-success">
-          <span>✅ <strong>Já configurado!</strong> O seu projeto e o arquivo zip já estão atualizados com essa chave oficial.</span>
-        </div>
       </section>
 
       <!-- STEP 4 -->
@@ -783,7 +701,7 @@
         <div class="card-header">
           <div class="card-title-left">
             <div class="step-badge">4</div>
-            <h2>Fazer Upload do Pacote Atualizado (CopiadorDrive.zip)</h2>
+            <h2>Fazer Upload do Pacote Atualizado (CopiadorDrive.zip v1.1.0)</h2>
           </div>
           <label class="step-checkbox">
             <input type="checkbox" class="step-check-input" onchange="updateProgress()">
@@ -793,7 +711,7 @@
 
         <p>No Chrome Developer Dashboard, vá na aba <strong>Pacote</strong> e envie o arquivo compactado atualizado:</p>
         <div style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 8px; padding: 14px;">
-          <p style="font-size: 13px; font-weight: 600; color: var(--text-main);">📁 Localização do arquivo no seu computador:</p>
+          <p style="font-size: 13px; font-weight: 600; color: var(--text-main);">📁 Arquivo Pronto:</p>
           <span class="copy-chip" style="word-break: break-all;">F:\Google Drive\Projetos\CopiadorDrive\CopiadorDrive.zip</span>
           <button class="btn-copy-chip" onclick="copyVal('F:\\Google Drive\\Projetos\\CopiadorDrive\\CopiadorDrive.zip', this)">Copiar Caminho</button>
         </div>
@@ -814,14 +732,10 @@
 
         <p>Utilize as abas acima para copiar e colar todas as informações da listagem e de privacidade:</p>
         <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px;">
-          <li>Acesse a aba <strong>"2. Detalhes do App"</strong> para preencher Título, Resumo, Descrição e imagens promocionais.</li>
+          <li>Acesse a aba <strong>"2. Detalhes do App"</strong> para preencher Título, Resumo, Descrição formatada e imagens.</li>
           <li>Acesse a aba <strong>"3. Respostas de Privacidade"</strong> para marcar as opções de conformidade e permissões.</li>
           <li>Clique no botão azul <strong>"Enviar para Análise"</strong> (Submit for review) no canto superior direito do painel da loja.</li>
         </ul>
-
-        <div class="alert alert-success">
-          <span>🎉 <strong>Aprovação Rápida:</strong> A equipe do Google analisa em 24 a 72 horas. Assim que aprovada, sua extensão estará disponível publicamente na Chrome Web Store!</span>
-        </div>
       </section>
 
     </main>
@@ -842,10 +756,10 @@
         <div class="field-group">
           <div class="field-label-bar">
             <span class="field-label">Título do Pacote</span>
-            <span class="field-meta">38 / 75 caracteres</span>
+            <span class="field-meta">33 / 75 caracteres</span>
           </div>
           <div class="field-box">
-            <span id="txt-title">Copiador de Drive - Clonador de Pastas</span>
+            <span id="txt-title">Copiador & Catalogador de Drive</span>
             <button class="btn-copy" onclick="copyField('txt-title', this)">Copiar</button>
           </div>
         </div>
@@ -854,10 +768,10 @@
         <div class="field-group">
           <div class="field-label-bar">
             <span class="field-label">Resumo do Pacote</span>
-            <span class="field-meta">104 / 132 caracteres</span>
+            <span class="field-meta">128 / 132 caracteres</span>
           </div>
           <div class="field-box">
-            <span id="txt-summary">Clona e copia pastas compartilhadas do Google Drive diretamente para o seu Meu Drive de forma rápida e segura.</span>
+            <span id="txt-summary">Clona pastas compartilhadas para o Meu Drive e gera Catálogos/Landing Pages HTML interativos com busca e player de mídia.</span>
             <button class="btn-copy" onclick="copyField('txt-summary', this)">Copiar</button>
           </div>
         </div>
@@ -870,40 +784,43 @@
           </div>
           <div class="field-box multiline" id="txt-desc">
 <button class="btn-copy" onclick="copyField('txt-desc', this)">Copiar Descrição Completa</button>
-Copie e clone pastas inteiras do Google Drive™ diretamente para o seu "Meu Drive" com apenas um clique!
+A ferramenta definitiva para clonar e catalogar pastas compartilhadas do Google Drive™ com apenas 1 clique!
 
-Você já recebeu uma pasta compartilhada no Google Drive e não conseguiu copiá-la por completo porque o Drive só permite copiar arquivos individuais? O Copiador de Drive foi desenvolvido exatamente para resolver essa limitação.
+Você já recebeu uma pasta compartilhada no Google Drive e não conseguiu copiá-la por completo, ou precisava de uma vitrine limpa para navegar pelos arquivos sem fazer download? O Copiador & Catalogador de Drive resolve os dois problemas em uma única extensão poderosa.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✨ PRINCIPAIS RECURSOS
+✨ 2 MODOS INTELIGENTES EM UMA SÓ EXTENSÃO
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✔ Cópia Completa de Pastas: Duplica estruturas inteiras, mantendo todas as subpastas e arquivos intactos.
-✔ Clonagem Server-Side (Em Nuvem): Não consome sua banda de internet nem exige downloads locais.
-✔ Modo Silencioso em Segundo Plano: O processo continua rodando mesmo se você trocar de aba.
-✔ Painel de Controle Completo: Acompanhe o progresso em tempo real com barra percentual, contadores e logs.
-✔ Integração Nativa no Google Drive: Adiciona um botão flutuante inteligente diretamente na interface do Drive.
-✔ 100% Seguro e Privado: Autenticação oficial via Google OAuth2. Seus dados nunca passam por servidores de terceiros.
+
+🚀 MODO 1: CLONAR PARA O MEU DRIVE
+• Duplicação Server-Side: Clona pastas inteiras diretamente nos servidores do Google. Não consome sua franquia de download.
+• Preservação Total da Estrutura: Mantém todas as subpastas, arquivos e hierarquias exatamente iguais à pasta de origem.
+• Execução em Segundo Plano: Continua processando com segurança mesmo se você trocar de aba.
+
+📄 MODO 2: GERAR CATÁLOGO / LANDING PAGE HTML
+• Vitrine Interativa Completa: Cria um arquivo HTML autônomo e moderno com a lista de todos os arquivos e pastas.
+• Reprodutor de Mídia Integrado: Assista a vídeos e ouça arquivos de áudio diretamente pelo catálogo interativo.
+• Barra de Busca Instantânea: Localize qualquer arquivo em pastas com milhares de itens em milissegundos.
+• Download Offline: Baixe o arquivo .html do catálogo para compartilhar ou navegar sem precisar de conexão.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 COMO USAR
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Abra qualquer pasta compartilhada no Google Drive (ou pelo link da pasta).
-2. Clique no ícone da extensão ou no botão flutuante na tela do Drive.
-3. Escolha o nome da nova pasta de destino no seu "Meu Drive".
-4. Clique em "Iniciar Cópia" e acompanhe o progresso em tempo real!
+1. Abra qualquer pasta compartilhada no Google Drive (ou cole o link da pasta na extensão).
+2. Escolha a ação desejada: "Clonar no Drive" ou "Gerar Catálogo HTML".
+3. Acompanhe o progresso em tempo real e aproveite seus arquivos organizados!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔒 PRIVACIDADE & SEGURANÇA
+🔒 PRIVACIDADE & SEGURANÇA MÁXIMA
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-O Copiador de Drive preza pela sua privacidade:
-• Nenhum dado pessoal, arquivo ou credencial é coletado ou enviado a servidores externos.
-• A comunicação ocorre exclusivamente entre o seu navegador e as APIs oficiais do Google Workspace.
-• Utiliza os escopos mínimos necessários (drive.readonly e drive.file).
+• 100% Privado: Seus dados e arquivos nunca passam por servidores externos.
+• Autenticação Oficial: Utiliza o Google Identity OAuth2 nativo.
+• Sem Anúncios ou Rastreamento: Respeito integral à privacidade do usuário.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 SUPORTE & FEEDBACK
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de suporte ou acesse nossa página no GitHub.
+Dúvidas ou sugestões? Entre em contato conosco pelo canal de suporte ou acesse nossa documentação no GitHub.
           </div>
         </div>
 
@@ -931,10 +848,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
           <span class="tag">store_assets/</span>
         </div>
 
-        <p style="font-size: 13px; color: var(--text-muted);">Todas as imagens já estão salvas na pasta <strong><code>preenchimento loja/store_assets/</code></strong> com os tamanhos e formatos exatos:</p>
-
         <div class="graphics-grid">
-          <!-- Icon 128 -->
           <div class="graphic-card">
             <div class="graphic-preview">
               <img src="../icons/icon128.png" alt="Ícone da Store">
@@ -942,11 +856,10 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <div class="graphic-info">
               <h4>Ícone da Loja (128x128)</h4>
               <p>Arquivo: <code>icons/icon128.png</code></p>
-              <span class="tag-green">Pronto para Upload</span>
+              <span class="tag-green">Pronto</span>
             </div>
           </div>
 
-          <!-- Screenshot 1280x800 -->
           <div class="graphic-card">
             <div class="graphic-preview">
               <img src="store_assets/screenshot_1280x800.png" alt="Screenshot 1280x800">
@@ -954,11 +867,10 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <div class="graphic-info">
               <h4>Captura de Tela (1280x800)</h4>
               <p>Arquivo: <code>store_assets/screenshot_1280x800.png</code></p>
-              <span class="tag-green">Pronto para Upload</span>
+              <span class="tag-green">Pronto</span>
             </div>
           </div>
 
-          <!-- Promo Small 440x280 -->
           <div class="graphic-card">
             <div class="graphic-preview">
               <img src="store_assets/promo_small_440x280.png" alt="Pequeno 440x280">
@@ -966,11 +878,10 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <div class="graphic-info">
               <h4>Mosaico Promocional (440x280)</h4>
               <p>Arquivo: <code>store_assets/promo_small_440x280.png</code></p>
-              <span class="tag-green">Pronto para Upload</span>
+              <span class="tag-green">Pronto</span>
             </div>
           </div>
 
-          <!-- Promo Marquee 1400x560 -->
           <div class="graphic-card">
             <div class="graphic-preview">
               <img src="store_assets/promo_marquee_1400x560.png" alt="Marquee 1400x560">
@@ -978,7 +889,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <div class="graphic-info">
               <h4>Banner Principal (1400x560)</h4>
               <p>Arquivo: <code>store_assets/promo_marquee_1400x560.png</code></p>
-              <span class="tag-green">Pronto para Upload</span>
+              <span class="tag-green">Pronto</span>
             </div>
           </div>
         </div>
@@ -1004,7 +915,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <span class="field-meta">Máx 1.000 caracteres</span>
           </div>
           <div class="field-box">
-            <span id="priv-purpose">Clonar e duplicar pastas e estruturas de arquivos compartilhadas do Google Drive diretamente para o armazenamento do usuário no Meu Drive de forma automatizada e segura via Google Drive API.</span>
+            <span id="priv-purpose">Gerenciar, clonar e gerar catálogos HTML interativos de pastas e arquivos compartilhados do Google Drive diretamente para a conta do usuário via Google Drive API de forma rápida e segura.</span>
             <button class="btn-copy" onclick="copyField('priv-purpose', this)">Copiar</button>
           </div>
         </div>
@@ -1022,7 +933,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <span class="field-label">storage</span>
           </div>
           <div class="field-box">
-            <span id="priv-storage">Utilizada para salvar localmente no navegador o progresso da cópia, configurações do usuário e o histórico de operações concluídas, permitindo restaurar o estado da clonagem.</span>
+            <span id="priv-storage">Utilizada para salvar localmente no navegador o progresso da cópia, o histórico de catálogos gerados e as configurações do usuário, permitindo restaurar o estado da operação.</span>
             <button class="btn-copy" onclick="copyField('priv-storage', this)">Copiar</button>
           </div>
         </div>
@@ -1032,7 +943,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <span class="field-label">alarms</span>
           </div>
           <div class="field-box">
-            <span id="priv-alarms">Utilizada para manter o Service Worker (Background Script) ativo durante a clonagem de pastas grandes, garantindo que o processo em lote não seja interrompido pelo navegador.</span>
+            <span id="priv-alarms">Utilizada para manter o Service Worker ativo durante a clonagem de pastas grandes e indexação de catálogos, garantindo que o processo não seja interrompido pelo navegador.</span>
             <button class="btn-copy" onclick="copyField('priv-alarms', this)">Copiar</button>
           </div>
         </div>
@@ -1049,10 +960,20 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
 
         <div class="field-group">
           <div class="field-label-bar">
+            <span class="field-label">downloads</span>
+          </div>
+          <div class="field-box">
+            <span id="priv-downloads">Utilizada exclusivamente para salvar o arquivo de catálogo HTML gerado (.html) diretamente no computador do usuário quando ele clica no botão de download.</span>
+            <button class="btn-copy" onclick="copyField('priv-downloads', this)">Copiar</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-bar">
             <span class="field-label">unlimitedStorage</span>
           </div>
           <div class="field-box">
-            <span id="priv-unlimited">Permite armazenar logs detalhados de cópia e cache da árvore de diretórios ao clonar pastas que contenham milhares de arquivos e subpastas aninhadas.</span>
+            <span id="priv-unlimited">Permite armazenar logs detalhados e cache da árvore de diretórios ao indexar pastas que contenham milhares de arquivos e subpastas.</span>
             <button class="btn-copy" onclick="copyField('priv-unlimited', this)">Copiar</button>
           </div>
         </div>
@@ -1062,7 +983,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <span class="field-label">Correspondência de Host: *://drive.google.com/*</span>
           </div>
           <div class="field-box">
-            <span id="priv-host">Utilizada exclusivamente para injetar um botão flutuante de atalho (FAB) na interface web do Google Drive, permitindo ao usuário acionar a clonagem da pasta aberta diretamente na tela.</span>
+            <span id="priv-host">Utilizada exclusivamente para injetar um botão flutuante inteligente (FAB) na interface web do Google Drive, permitindo clonar ou catalogar a pasta aberta diretamente na tela.</span>
             <button class="btn-copy" onclick="copyField('priv-host', this)">Copiar</button>
           </div>
         </div>
@@ -1072,7 +993,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
             <span class="field-label">Correspondência de Host: https://www.googleapis.com/*</span>
           </div>
           <div class="field-box">
-            <span id="priv-apis">Utilizada pelo Service Worker em segundo plano para fazer requisições HTTP REST diretas aos endpoints oficiais da Google Drive API v3 para listar, criar e duplicar arquivos e pastas.</span>
+            <span id="priv-apis">Utilizada pelo Service Worker em segundo plano para fazer requisições HTTP REST diretas aos endpoints oficiais da Google Drive API v3 para listar, ler, criar e duplicar arquivos e pastas.</span>
             <button class="btn-copy" onclick="copyField('priv-apis', this)">Copiar</button>
           </div>
         </div>
@@ -1085,49 +1006,29 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
           <span class="tag">Data Usage</span>
         </div>
 
-        <p style="font-size: 13px; color: var(--text-muted);">Marque as caixas de seleção na loja exatamente conforme a tabela abaixo:</p>
+        <p style="font-size: 13px; color: var(--text-muted);">Mantenha todos os campos desmarcados conforme abaixo:</p>
 
         <div class="action-list">
           <div class="action-item must-uncheck">
-            <span>Informações de identificação pessoal (Nome, endereço, etc.)</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
-          </div>
-          <div class="action-item must-uncheck">
-            <span>Dados de integridade ou médicos</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
+            <span>Informações de identificação pessoal</span>
+            <span class="badge-uncheck">DESMARCADO</span>
           </div>
           <div class="action-item must-uncheck">
             <span>Dados financeiros ou pagamentos</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
+            <span class="badge-uncheck">DESMARCADO</span>
           </div>
           <div class="action-item must-uncheck">
             <span>Autenticação (Senhas, credenciais)</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
+            <span class="badge-uncheck">DESMARCADO</span>
           </div>
           <div class="action-item must-uncheck">
-            <span>Comunicações pessoais (E-mails, mensagens)</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
+            <span>Comunicações pessoais</span>
+            <span class="badge-uncheck">DESMARCADO</span>
           </div>
           <div class="action-item must-uncheck">
-            <span>Localização (GPS, região)</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
+            <span>Histórico da Web ou Atividade</span>
+            <span class="badge-uncheck">DESMARCADO</span>
           </div>
-          <div class="action-item must-uncheck">
-            <span>Histórico da Web</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
-          </div>
-          <div class="action-item must-uncheck">
-            <span>Atividade do usuário (Cliques, rolagem de página)</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
-          </div>
-          <div class="action-item must-uncheck">
-            <span>Conteúdo do site</span>
-            <span class="badge-uncheck">NÃO MARCAR (Desmarcado)</span>
-          </div>
-        </div>
-
-        <div class="alert alert-info" style="margin-top: 8px;">
-          <span>💡 <strong>Por que tudo desmarcado?</strong> Porque a extensão não coleta nem transfere dados para servidores seus. Todo o processo é executado diretamente entre a máquina do usuário e a API do Google Drive via OAuth2.</span>
         </div>
       </section>
 
@@ -1135,7 +1036,6 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
       <section class="card">
         <div class="card-header">
           <h2>4. Certificações Obrigatórias</h2>
-          <span class="tag">Certifications</span>
         </div>
 
         <div class="radio-card">
@@ -1158,7 +1058,6 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
       <section class="card">
         <div class="card-header">
           <h2>Links Rápidos dos Painéis</h2>
-          <span class="tag">Acesso Direto</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
@@ -1179,8 +1078,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
 
       <section class="card">
         <div class="card-header">
-          <h2>Resumo das Credenciais Geradas</h2>
-          <span class="tag">Valores Oficiais</span>
+          <h2>Resumo das Credenciais Oficiais</h2>
         </div>
 
         <div class="field-group">
@@ -1200,7 +1098,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
         </div>
 
         <div class="field-group">
-          <span class="field-label">Arquivo de Publicação (Zip)</span>
+          <span class="field-label">Arquivo de Publicação (Zip v1.1.0)</span>
           <div class="field-box">
             <span id="cred-zip-path">F:\Google Drive\Projetos\CopiadorDrive\CopiadorDrive.zip</span>
             <button class="btn-copy" onclick="copyField('cred-zip-path', this)">Copiar Caminho</button>
@@ -1212,7 +1110,7 @@ Dúvidas, sugestões ou problemas? Entre em contato conosco pelo e-mail de supor
 
     <!-- Footer -->
     <footer>
-      <p>Copiador de Drive • Central Unificada de Publicação • Desenvolvido com carinho para publicação na Chrome Web Store</p>
+      <p>Copiador & Catalogador de Drive • Central Unificada de Publicação • Versão 1.1.0</p>
     </footer>
 
   </div>

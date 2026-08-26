@@ -480,9 +480,32 @@
           </li>
           <li>Se for sua primeira vez, pague a taxa única de registro de desenvolvedor do Google ($5 USD).</li>
           <li>Clique no botão azul <strong>"Novo item"</strong> (New item).</li>
-          <li>Faça o upload de um arquivo <code>.zip</code> qualquer da extensão para criar o item.</li>
-          <li><strong>NÃO publique ainda</strong>. Na página do item, localize e copie o <strong>ID da Extensão</strong> (código de 32 letras minúsculas, ex: <code>ammibafhnmcbbjphdlfldimjimfglhec</code>).</li>
+          <li>Faça o upload do arquivo <span class="tag">CopiadorDrive.zip</span> para criar o rascunho.</li>
+          <li><strong>NÃO publique ainda</strong>. Na página do item, localize e copie o <strong>ID da Extensão</strong> de uma das duas formas abaixo:</li>
         </ol>
+
+        <!-- Box de Explicação das 2 Formas -->
+        <div style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 8px; padding: 14px; margin: 10px 0; display: flex; flex-direction: column; gap: 10px;">
+          <h4 style="font-size: 14px; color: var(--primary);">🔍 Como localizar o ID de 32 letras:</h4>
+          
+          <div>
+            <strong>🌟 Forma 1 (Pela barra de endereços do navegador):</strong>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Olhe para a URL da página no topo do navegador. Ela terá um código de 32 letras minúsculas no endereço:</p>
+            <code style="font-size: 11px; background: #e8eaed; padding: 4px 8px; border-radius: 4px; display: block; margin-top: 4px; word-break: break-all;">https://chrome.google.com/webstore/devconsole/.../<strong>abcdefghijklmnopqrstuvwxyz123456</strong>/edit</code>
+          </div>
+
+          <div>
+            <strong>📋 Forma 2 (Direto na tela do painel da loja):</strong>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Clique no rascunho do <em>Copiador de Drive</em>. No menu lateral esquerdo ou logo abaixo do título no topo da tela, você verá escrito:</p>
+            <p style="font-size: 13px; font-weight: 600; color: var(--text-main); margin-top: 2px;"><strong>ID do item:</strong> <code>[código de 32 letras]</code></p>
+          </div>
+
+          <div class="alert alert-info" style="margin: 0;">
+            <span>💡 <strong>Exemplo de como é o ID:</strong> É um código com 32 caracteres contendo letras minúsculas (de <code>a</code> a <code>p</code>) e números. Exemplo: <span class="tag">ammibafhnmcbbjphdlfldimjimfglhec</span></span>
+          </div>
+
+          <p style="font-size: 12px; color: var(--success); font-weight: 600; margin: 0;">👉 Assim que você copiar esse código de 32 letras, você irá colá-lo no campo "ID do item" no Google Cloud (na Etapa 2) para gerar seu Client ID!</p>
+        </div>
       </div>
     </section>
 

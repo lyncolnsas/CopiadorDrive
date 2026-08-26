@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do App - Chrome Web Store Listing | Copiador de Drive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --primary-light: #e8f0fe;
+      --success: #1e8e3e;
+      --success-light: #e6f4ea;
+      --warning: #f9ab00;
+      --warning-light: #fef7e0;
+      --danger: #d93025;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-page: #f8fafd;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --border-light: #f1f3f4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(60,64,67,0.1), 0 1px 2px rgba(60,64,67,0.06);
+      --shadow-md: 0 4px 16px rgba(60,64,67,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header */
+    .header-card {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: #ffffff;
+      padding: 32px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .header-title p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .badge-pill {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Form Fields */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-label-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .field-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .field-value-box {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--text-main);
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .field-value-box.multiline {
+      white-space: pre-wrap;
+      font-family: inherit;
+      max-height: 360px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Graphics Grid */
+    .graphics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .graphic-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .graphic-preview {
+      width: 100%;
+      height: 130px;
+      background: #f1f3f4;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px dashed #ccc;
+    }
+
+    .graphic-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .graphic-info h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .graphic-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .tag-green {
+      display: inline-block;
+      background: var(--success-light);
+      color: var(--success);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Select Pill Grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .option-item {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .option-item strong {
+      display: block;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .option-item span {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Alert */
+    .alert {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      line-height: 1.4;
+      background: var(--primary-light);
+      color: #174ea6;
+      border: 1px solid #d2e3fc;
+    }
+
+    @media (max-width: 600px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header-card">
+      <div class="header-title">
+        <h1>📋 Preenchimento: "Detalhes do App"</h1>
+        <p>Textos e recursos prontos para copiar e colar na Chrome Web Store</p>
+      </div>
+      <div class="badge-pill">Chrome Web Store Listing</div>
+    </header>
+
+    <div class="alert">
+      <span>💡 <strong>Instrução:</strong> Abra a página de detalhes da sua extensão no <a href="https://chrome.google.com/webstore/devconsole" target="_blank" style="color: #1a73e8; font-weight: bold;">Chrome Developer Dashboard</a> e use os botões <strong>"Copiar"</strong> abaixo para preencher cada campo diretamente.</span>
+    </div>
+
+    <!-- 1. DETALHES DO PRODUTO -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">1</div>
+        <h2>Detalhes do Produto</h2>
+      </div>
+
+      <!-- Título do Pacote -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Título do Pacote</span>
+          <span class="field-meta">39 / 45 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="title-text">Copiador de Drive - Clonador de Pastas</span>
+          <button class="copy-btn" onclick="copyText('title-text', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- Resumo do Pacote -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Resumo do Pacote</span>
+          <span class="field-meta">104 / 132 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="summary-text">Clona e copia pastas compartilhadas do Google Drive diretamente para o seu Meu Drive de forma rápida e segura.</span>
+          <button class="copy-btn" onclick="copyText('summary-text', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- Descrição Completa -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Descrição Completa</span>
+          <span class="field-meta">Formatada para máxima conversão (~2.300 / 16.000 caracteres)</span>
+        </div>
+        <div class="field-value-box multiline" id="description-text">Cansado de perder o acesso a arquivos e pastas compartilhadas do Google Drive quando o proprietário original remove o compartilhamento ou apaga a pasta?
+
+O **Copiador de Drive** é a solução definitiva e mais rápida para clonar e duplicar estruturas completas de pastas compartilhadas diretamente para a sua própria conta do Google Drive ("Meu Drive"), garantindo a posse vitalícia dos seus arquivos!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 PRINCIPAIS BENEFÍCIOS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Cópia 100% em Nuvem (Server-Side)
+Os arquivos são duplicados diretamente nos servidores do Google. Você NÃO gasta sua franquia de internet baixando e enviando arquivos de volta.
+
+✅ Preservação Total da Estrutura de Pastas
+Subpastas, pastas aninhadas e arquivos mantêm exatamente a mesma organização da pasta original compartilhada.
+
+✅ Suporte Inteligente a Atalhos
+Resolve e copia atalhos do Google Drive diretamente para os arquivos reais sem criar links quebrados.
+
+✅ Prevenção de Duplicações e Cache Inteligente
+Possui sistema de memória integrado. Se você interromper uma cópia de uma pasta gigante e recomeçar, ele retoma de onde parou sem duplicar o que já foi copiado.
+
+✅ Monitoramento em Tempo Real com Árvore Visual
+Acompanhe barra de progresso, quantidade de arquivos clonados, volume em MB/GB, tempo estimado restante (ETA) e a árvore de pastas sendo gerada ao vivo.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📖 COMO USAR:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Clique em "Conectar com Google" no popup da extensão (apenas 1 clique, 100% seguro).
+2. Cole o link ou ID da pasta compartilhada do Google Drive que deseja clonar (suporta múltiplos links de uma vez!).
+3. Clique em "Iniciar Cópia".
+4. Pronto! Uma nova pasta com todos os arquivos clonados será criada automaticamente no seu "Meu Drive".
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔒 PRIVACIDADE & SEGURANÇA:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Zero Coleta de Dados: A extensão NÃO coleta senhas, NÃO armazena seus dados em servidores externos e NÃO repassa informações a terceiros.
+• Comunicação Oficial: Todas as requisições ocorrem estritamente entre o seu navegador e as APIs oficiais e seguras do Google Drive.</div>
+        <div style="margin-top: 8px; text-align: right;">
+          <button class="copy-btn" style="position: static; display: inline-flex;" onclick="copyText('description-text', this)">Copiar Descrição Completa</button>
+        </div>
+      </div>
+
+      <!-- Categoria e Idioma -->
+      <div class="options-grid">
+        <div class="option-item">
+          <strong>Categoria a Selecionar:</strong>
+          <span>Produtividade</span>
+        </div>
+        <div class="option-item">
+          <strong>Idioma a Selecionar:</strong>
+          <span>Português (Brasil)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. RECURSOS GRÁFICOS -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">2</div>
+        <h2>Recursos Gráficos (Imagens Prontas para Upload)</h2>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted);">Todas as imagens abaixo já foram geradas nas dimensões exatas de 24 bits (sem canal alfa), em conformidade com as diretrizes do Google:</p>
+
+      <div class="graphics-grid">
+        <!-- Ícone 128x128 -->
+        <div class="graphic-card">
+          <div class="graphic-preview">
+            <img src="../icons/icon128.png" alt="Ícone da Store 128x128">
+          </div>
+          <div class="graphic-info">
+            <h4>Ícone da Store</h4>
+            <p>128 x 128 px • PNG</p>
+            <span class="tag-green">Pronto na pasta /icons</span>
+          </div>
+        </div>
+
+        <!-- Print / Screenshot 1280x800 -->
+        <div class="graphic-card">
+          <div class="graphic-preview">
+            <img src="store_assets/screenshot_1280x800.png" alt="Screenshot 1280x800">
+          </div>
+          <div class="graphic-info">
+            <h4>Print / Screenshot Principal</h4>
+            <p>1280 x 800 px • 24 bits sem alfa</p>
+            <span class="tag-green">Pronto em /store_assets</span>
+          </div>
+        </div>
+
+        <!-- Bloco Promocional Pequeno 440x280 -->
+        <div class="graphic-card">
+          <div class="graphic-preview">
+            <img src="store_assets/promo_small_440x280.png" alt="Promo Small 440x280">
+          </div>
+          <div class="graphic-info">
+            <h4>Bloco Promocional Pequeno</h4>
+            <p>440 x 280 px • 24 bits sem alfa</p>
+            <span class="tag-green">Pronto em /store_assets</span>
+          </div>
+        </div>
+
+        <!-- Bloco Promocional Letreiro 1400x560 -->
+        <div class="graphic-card">
+          <div class="graphic-preview">
+            <img src="store_assets/promo_marquee_1400x560.png" alt="Promo Marquee 1400x560">
+          </div>
+          <div class="graphic-info">
+            <h4>Bloco de Letreiro (Marquee)</h4>
+            <p>1400 x 560 px • 24 bits sem alfa</p>
+            <span class="tag-green">Pronto em /store_assets</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CAMPOS EXTRAS & PRIVACIDADE -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">3</div>
+        <h2>Campos Extras e Configurações de Conformidade</h2>
+      </div>
+
+      <!-- URL da Política de Privacidade -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">URL da Política de Privacidade</span>
+          <span class="field-meta">Obrigatório pelo Google</span>
+        </div>
+        <div class="field-value-box">
+          <span id="privacy-url">URL onde você hospedou o arquivo privacy.html (ex: GitHub Pages ou seu site)</span>
+          <button class="copy-btn" onclick="copyText('privacy-url', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- Outras opções -->
+      <div class="options-grid">
+        <div class="option-item">
+          <strong>Vídeo Promocional:</strong>
+          <span style="color: var(--text-muted); font-size: 14px;">Opcional (Pode deixar em branco)</span>
+        </div>
+        <div class="option-item">
+          <strong>URL Oficial / Suporte:</strong>
+          <span style="color: var(--text-muted); font-size: 14px;">Opcional (Pode colocar o link do repositório/suporte)</span>
+        </div>
+        <div class="option-item">
+          <strong>Conteúdo Adulto:</strong>
+          <span style="color: var(--success); font-size: 15px;">Marcar: NÃO</span>
+        </div>
+        <div class="option-item">
+          <strong>Visibilidade:</strong>
+          <span style="color: var(--primary); font-size: 15px;">Público</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. JUSTIFICATIVA DE ESCOPOS PARA A REVISÃO -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">4</div>
+        <h2>Justificativa de Permissões (Para a Análise do Google)</h2>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted);">Quando o Google perguntar na aba de Privacidade a razão pela qual a extensão solicita as permissões do Google Drive, copie este texto:</p>
+
+      <div class="field-group">
+        <div class="field-value-box multiline" id="review-justification">A extensão tem como finalidade única permitir que o usuário clone pastas compartilhadas para o seu próprio Google Drive.
+1. O escopo 'drive.readonly' é necessário para inspecionar a hierarquia de pastas e listar os arquivos da pasta compartilhada de origem.
+2. O escopo 'drive.file' é necessário para criar as novas pastas correspondentes e duplicar os arquivos diretamente no "Meu Drive" da conta do usuário.
+Nenhum dado é enviado para servidores externos; todo o tráfego é estritamente cliente-servidor direto com as APIs oficiais do Google.</div>
+        <div style="margin-top: 8px; text-align: right;">
+          <button class="copy-btn" style="position: static; display: inline-flex;" onclick="copyText('review-justification', this)">Copiar Justificativa</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function copyText(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Copiado! ✓';
+        btn.style.background = '#1e8e3e';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.background = '#1a73e8';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

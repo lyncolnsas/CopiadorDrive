@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidade - Copiador de Drive</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #202124;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background-color: #f8f9fa;
+    }
+    .card {
+      background: #ffffff;
+      padding: 36px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      border: 1px solid #dadce0;
+    }
+    h1 { color: #1a73e8; margin-top: 0; font-size: 24px; }
+    h2 { color: #3c4043; font-size: 18px; margin-top: 24px; }
+    p, li { color: #5f6368; font-size: 14px; }
+    ul { padding-left: 20px; }
+    .badge { background: #e8f0fe; color: #1a73e8; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">Privacidade & Segurança</span>
+    <h1>Política de Privacidade — Copiador de Drive</h1>
+    <p><strong>Última atualização:</strong> 26 de Agosto de 2026</p>
+    
+    <p>A extensão <strong>Copiador de Drive</strong> foi desenvolvida com compromisso total com a sua privacidade e segurança de dados.</p>
+
+    <h2>1. Coleta e Uso de Informações</h2>
+    <p>A extensão <strong>NÃO</strong> coleta, não rastreia, não armazena em servidores remotos e não compartilha quaisquer dados pessoais ou arquivos do usuário.</p>
+    <p>Todo o processamento de clonagem de pastas ocorre <strong>estritamente entre o seu navegador e as APIs oficiais do Google Drive</strong>.</p>
+
+    <h2>2. Uso de Permissões e Escopos da Google Drive API</h2>
+    <p>A extensão solicita acesso aos seguintes escopos oficiais do Google:</p>
+    <ul>
+      <li><code>https://www.googleapis.com/auth/drive.readonly</code>: Usado exclusivamente para ler a estrutura de arquivos e pastas compartilhadas de origem que o usuário solicitar copiar.</li>
+      <li><code>https://www.googleapis.com/auth/drive.file</code>: Usado exclusivamente para criar pastas e duplicar os arquivos selecionados no "Meu Drive" da sua conta Google.</li>
+    </ul>
+
+    <h2>3. Armazenamento Local</h2>
+    <p>A extensão utiliza o armazenamento local do navegador (<code>chrome.storage.local</code>) apenas para:</p>
+    <ul>
+      <li>Salvar o token de autenticação temporário para manter você conectado.</li>
+      <li>Armazenar em cache o mapeamento das pastas durante o processo de cópia, permitindo recuperar o progresso se a página for fechada.</li>
+    </ul>
+
+    <h2>4. Compartilhamento de Dados</h2>
+    <p>Nenhum dado é vendido, repassado ou compartilhado com terceiros. A extensão não possui servidores intermediários nem serviços analíticos externos.</p>
+
+    <h2>5. Revogação de Acesso</h2>
+    <p>Você pode desconectar sua conta a qualquer momento clicando em "Desconectar Conta" no menu da extensão ou revogando o acesso diretamente no painel <a href="https://myaccount.google.com/permissions" target="_blank">Permissões de Conta Google</a>.</p>
+
+    <h2>6. Contato</h2>
+    <p>Para dúvidas sobre esta política, entre em contato através do canal de suporte da Chrome Web Store.</p>
+  </div>
+</body>
+</html>

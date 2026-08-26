@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acompanhamento - Copiador de Drive</title>
+  <link rel="stylesheet" href="popup.css">
+  <style>
+    body {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background-color: #f0f2f5;
+      padding: 30px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .dashboard-container {
+      width: 100%;
+      max-width: 1100px;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dash-brand img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .dash-brand h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .dash-brand p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .kpi-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Main Progress */
+    .progress-section {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .progress-top-line {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .active-scans {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--primary-light);
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    /* Columns (Logs + Tree) */
+    .dual-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      min-height: 450px;
+    }
+
+    .panel-box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .panel-header {
+      padding: 12px 16px;
+      background: #f8f9fa;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #log-container {
+      flex: 1;
+      height: 420px;
+      overflow-y: auto;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 14px;
+      font-family: "Cascadia Code", "Fira Code", Consolas, Courier, monospace;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .log-entry {
+      margin-bottom: 4px;
+      border-bottom: 1px solid #2d2d2d;
+      padding-bottom: 2px;
+      word-break: break-all;
+    }
+
+    .log-time {
+      color: #858585;
+      margin-right: 6px;
+    }
+
+    .log-error {
+      color: #f48771;
+    }
+
+    .log-info {
+      color: #4fc1ff;
+    }
+
+    .log-success {
+      color: #89d185;
+    }
+
+    #tree-container {
+      flex: 1;
+      height: 420px;
+      overflow-y: auto;
+      background: #ffffff;
+      color: #333333;
+      padding: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .tree-item {
+      padding: 2px 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .tree-item:hover {
+      background-color: #f1f3f4;
+    }
+
+    @media (max-width: 800px) {
+      .dual-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="dash-brand">
+        <img src="icons/icon48.png" alt="Logo">
+        <div>
+          <h1>Copiador de Drive - Acompanhamento Detalhado</h1>
+          <p>Monitoramento em tempo real do pipeline de clonagem</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button id="cancel-btn" class="btn btn-danger" style="width: auto; padding: 8px 16px;">
+          Cancelar Cópia
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-title">Itens Processados</span>
+        <span id="kpi-copied" class="kpi-value">0 / 0</span>
+        <span id="kpi-percent" class="kpi-sub">0% concluído</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Volume Total</span>
+        <span id="kpi-bytes" class="kpi-value">0 B</span>
+        <span class="kpi-sub">Tamanho acumulado</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Tempo Estimado (ETA)</span>
+        <span id="kpi-eta" class="kpi-value">--</span>
+        <span class="kpi-sub">Cálculo dinâmico</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Status Atual</span>
+        <span id="kpi-status" class="kpi-value" style="font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Inativo</span>
+        <span id="kpi-scans" class="kpi-sub">Nenhuma pasta ativa</span>
+      </div>
+    </div>
+
+    <!-- Main Progress Bar -->
+    <div class="progress-section">
+      <div class="progress-top-line">
+        <span id="status-title">Aguardando início...</span>
+        <span id="progress-percent-label">0%</span>
+      </div>
+      <div class="progress-bar-bg" style="height: 10px;">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+      <div id="active-scans-box" class="active-scans"></div>
+    </div>
+
+    <!-- Split Panels (Terminal Logs + Visual File Tree) -->
+    <div class="dual-panel">
+      <!-- Terminal Log Box -->
+      <div class="panel-box">
+        <div class="panel-header">
+          <span>Terminal de Execução</span>
+          <button id="clear-logs-btn" class="btn-text" style="font-size: 12px;">Limpar Terminal</button>
+        </div>
+        <div id="log-container">
+          <div class="log-entry log-info"><span class="log-time">[Sistema]</span> Aguardando tarefas de cópia...</div>
+        </div>
+      </div>
+
+      <!-- File Tree Structure Box -->
+      <div class="panel-box">
+        <div class="panel-header">
+          <span>Estrutura de Pastas & Arquivos Mapeados</span>
+          <span id="tree-counter" style="font-size: 12px; color: var(--text-muted);">0 itens</span>
+        </div>
+        <div id="tree-container">
+          <div style="color: #888; font-style: italic; padding: 10px;">A estrutura de pastas aparecerá aqui conforme o mapeamento for executado...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="tab.js"></script>
+</body>
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copia e Cola: Aba Privacidade (Chrome Web Store)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --primary-light: #e8f0fe;
+      --success: #1e8e3e;
+      --success-hover: #137333;
+      --success-light: #e6f4ea;
+      --danger: #d93025;
+      --danger-light: #fce8e6;
+      --warning: #b06000;
+      --warning-light: #fef7e0;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-page: #f0f4f9;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(60,64,67,0.12), 0 1px 2px rgba(60,64,67,0.08);
+      --shadow-md: 0 4px 14px rgba(60,64,67,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 30px 16px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: #ffffff;
+      padding: 26px 28px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .header-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-title-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f1f3f4;
+    }
+
+    .card-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .card-title-bar h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Field Blocks */
+    .field-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .field-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .char-badge {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .copy-container {
+      position: relative;
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      padding-right: 110px;
+      font-size: 13.5px;
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+    }
+
+    .copy-btn {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      bottom: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+    }
+
+    /* Action Checklist */
+    .action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .action-item {
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      border: 1px solid transparent;
+    }
+
+    .action-item.must-check {
+      background: var(--success-light);
+      border-color: #ceead6;
+      color: #137333;
+      font-weight: 600;
+    }
+
+    .action-item.must-uncheck {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+
+    .badge-check {
+      background: var(--success);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-uncheck {
+      background: var(--danger-light);
+      color: var(--danger);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #f5c2c7;
+    }
+
+    /* Radio Box */
+    .radio-card {
+      background: var(--success-light);
+      border: 2px solid #a8dab5;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .radio-card strong {
+      font-size: 14px;
+      color: #137333;
+    }
+
+    .instruction-bar {
+      background: #e8f0fe;
+      border: 1px solid #c2e0ff;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #174ea6;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div>
+        <h1>📋 Copia e Cola — Aba Privacidade</h1>
+        <p>Textos e respostas prontos com 1 clique para preencher a Chrome Web Store</p>
+      </div>
+      <div class="header-badge">Aprovação Garantida</div>
+    </header>
+
+    <div class="instruction-bar">
+      <span>💡 <strong>Dica:</strong> Deixe esta página aberta ao lado do painel da Chrome Web Store e clique no botão azul <strong>"Copiar"</strong> de cada campo.</span>
+    </div>
+
+    <!-- 1. ÚNICO PROPÓSITO -->
+    <section class="card">
+      <div class="card-title-bar">
+        <div class="card-num">1</div>
+        <h2>Único Propósito</h2>
+      </div>
+
+      <div class="field-box">
+        <div class="field-header">
+          <span class="field-name">Descrição do único propósito:</span>
+          <span class="char-badge">266 / 1.000 caracteres</span>
+        </div>
+        <div class="copy-container">
+          <span id="text-single-purpose">A extensão tem como finalidade única e exclusiva permitir que o usuário clone e replique pastas compartilhadas do Google Drive diretamente para o seu próprio Google Drive ("Meu Drive"), garantindo a posse e o acesso vitalício dos seus arquivos sem download manual.</span>
+          <button class="copy-btn" onclick="copyField('text-single-purpose', this)">Copiar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. JUSTIFICATIVAS DE PERMISSÃO -->
+    <section class="card">
+      <div class="card-title-bar">
+        <div class="card-num">2</div>
+        <h2>Justificativas de Permissão</h2>
+      </div>
+
+      <!-- identity -->
+      <div class="field-box">
+        <div class="field-header">
+          <span class="field-name">Justificativa de: identity</span>
+          <span class="char-badge">269 / 1.000 caracteres</span>
+        </div>
+        <div class="copy-container">
+          <span id="text-identity">Necessária para autenticar com segurança a conta Google do usuário via OAuth2 nativo (chrome.identity.getAuthToken), obtendo o token de autorização estritamente para executar as chamadas de cópia diretamente na conta do usuário no Google Drive.</span>
+          <button class="copy-btn" onclick="copyField('text-identity', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- storage -->
+      <div class="field-box">
+        <div class="field-header">
+          <span class="field-name">Justificativa de: storage</span>
+          <span class="char-badge">258 / 1.000 caracteres</span>
+        </div>
+        <div class="copy-container">
+          <span id="text-storage">Utilizada para salvar temporariamente em cache local a estrutura de pastas mapeada durante o processo de cópia. Isso permite retomar cópias interrompidas sem duplicar arquivos e manter o estado da interface se a aba for fechada.</span>
+          <button class="copy-btn" onclick="copyField('text-storage', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- alarms -->
+      <div class="field-box">
+        <div class="field-header">
+          <span class="field-name">Justificativa de: alarms</span>
+          <span class="char-badge">248 / 1.000 caracteres</span>
+        </div>
+        <div class="copy-container">
+          <span id="text-alarms">Utilizada para manter o Service Worker (background.js) ativo através de um heartbeat periódico durante operações longas de cópia de pastas volumosas, impedindo que o Chrome finalize o processo em background antes da conclusão.</span>
+          <button class="copy-btn" onclick="copyField('text-alarms', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- unlimitedStorage -->
+      <div class="field-box">
+        <div class="field-header">
+          <span class="field-name">Justificativa de: unlimitedStorage</span>
+          <span class="char-badge">247 / 1.000 caracteres</span>
+        </div>
+        <div class="copy-container">
+          <span id="text-unlimited">Necessária para garantir que árvores e estruturas de pastas com milhares de arquivos possam ter seu mapeamento em cache salvo localmente no navegador sem risco de bloqueio por limite de cota de armazenamento local.</span>
+          <button class="copy-btn" onclick="copyField('text-unlimited', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- host permission -->
+      <div class="field-box">
+        <div class="field-header">
+          <span class="field-name">Justificativa de: Permissão do host (https://www.googleapis.com/*)</span>
+          <span class="char-badge">258 / 1.000 caracteres</span>
+        </div>
+        <div class="copy-container">
+          <span id="text-host">Necessária para comunicar com os endpoints da Google Drive API v3 (ex: /files, /files/{id}/copy) a fim de ler a árvore de arquivos da pasta compartilhada de origem e criar os arquivos clonados diretamente na conta do usuário.</span>
+          <button class="copy-btn" onclick="copyField('text-host', this)">Copiar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CÓDIGO REMOTO -->
+    <section class="card">
+      <div class="card-title-bar">
+        <div class="card-num">3</div>
+        <h2>Você está usando código remoto?</h2>
+      </div>
+
+      <div class="radio-card">
+        <input type="radio" checked style="width: 18px; height: 18px; accent-color: var(--success);">
+        <div>
+          <strong>Marcar: "Não, não estou usando Código remoto"</strong>
+          <p style="font-size: 12px; color: #137333; margin-top: 2px;">Todo o código executável (JS/CSS) está 100% empacotado no arquivo .zip da extensão.</p>
+        </div>
+      </div>
+
+      <div class="field-box" style="margin-top: 6px;">
+        <div class="field-header">
+          <span class="field-name">Justificativa (caso o formulário exija):</span>
+          <span class="char-badge">246 / 1.000 caracteres</span>
+        </div>
+        <div class="copy-container">
+          <span id="text-remote-just">Todo o código JavaScript e CSS da extensão está 100% empacotado localmente dentro do pacote da extensão (background.js, popup.js, tab.js, content.js), sem qualquer execução de scripts externos ou avaliação dinâmica via eval().</span>
+          <button class="copy-btn" onclick="copyField('text-remote-just', this)">Copiar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. USO DE DADOS -->
+    <section class="card">
+      <div class="card-title-bar">
+        <div class="card-num">4</div>
+        <h2>Uso de dados (Quais dados você pretende coletar?)</h2>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">
+        A extensão <strong>NÃO</strong> envia nenhum dado do usuário para servidores externos. Por isso, <strong>DEIXE TODAS AS 9 OPÇÕES DESMARCADAS</strong>:
+      </p>
+
+      <div class="action-list">
+        <div class="action-item must-uncheck">
+          <span>❌ Informações de identificação pessoal</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Informações sobre saúde</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Informações financeiras e de pagamento</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Informações de autenticação</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Comunicações pessoais</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Local</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Histórico da Web</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Atividade do usuário</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="action-item must-uncheck">
+          <span>❌ Conteúdo do site</span>
+          <span class="badge-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. DECLARAÇÕES OBRIGATÓRIAS -->
+    <section class="card">
+      <div class="card-title-bar">
+        <div class="card-num">5</div>
+        <h2>Declaro que as divulgações a seguir são verdadeiras</h2>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">
+        Marque a caixa de seleção como <strong>SIM / VERDADEIRO</strong> nas 3 declarações obrigatórias:
+      </p>
+
+      <div class="action-list">
+        <div class="action-item must-check">
+          <span>☑️ Não vendo nem transfiro dados do usuário a terceiros fora dos casos de uso aprovados.</span>
+          <span class="badge-check">MARCAR SIM</span>
+        </div>
+        <div class="action-item must-check">
+          <span>☑️ Não uso nem transfiro dados do usuário para fins não relacionados ao único objetivo do meu item.</span>
+          <span class="badge-check">MARCAR SIM</span>
+        </div>
+        <div class="action-item must-check">
+          <span>☑️ Não uso nem transfiro dados do usuário para determinar credibilidade ou para fins de empréstimo.</span>
+          <span class="badge-check">MARCAR SIM</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. URL DA POLÍTICA DE PRIVACIDADE -->
+    <section class="card">
+      <div class="card-title-bar">
+        <div class="card-num">6</div>
+        <h2>Política de Privacidade</h2>
+      </div>
+
+      <div class="field-box">
+        <div class="field-header">
+          <span class="field-name">URL da Política de Privacidade*:</span>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted);">Insira a URL pública onde você hospedou o arquivo <span style="font-family: monospace; background: #e8eaed; padding: 1px 4px; border-radius: 3px;">privacy.html</span> (exemplo via GitHub Pages ou Vercel):</p>
+        <div class="copy-container" style="margin-top: 4px;">
+          <span id="text-privacy-url">https://seu-usuario.github.io/CopiadorDrive/privacy.html</span>
+          <button class="copy-btn" onclick="copyField('text-privacy-url', this)">Copiar</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function copyField(elementId, btn) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Copiado! ✓';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

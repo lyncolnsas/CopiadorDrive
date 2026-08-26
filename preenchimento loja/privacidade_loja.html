@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aba Privacidade - Chrome Web Store | Copiador de Drive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --primary-light: #e8f0fe;
+      --success: #1e8e3e;
+      --success-light: #e6f4ea;
+      --warning: #f9ab00;
+      --warning-light: #fef7e0;
+      --danger: #d93025;
+      --danger-light: #fce8e6;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg-page: #f8fafd;
+      --bg-card: #ffffff;
+      --border: #dadce0;
+      --border-light: #f1f3f4;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(60,64,67,0.1), 0 1px 2px rgba(60,64,67,0.06);
+      --shadow-md: 0 4px 16px rgba(60,64,67,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header */
+    .header-card {
+      background: linear-gradient(135deg, #1e8e3e 0%, #0d652d 100%);
+      color: #ffffff;
+      padding: 32px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .header-title p {
+      font-size: 14px;
+      opacity: 0.92;
+    }
+
+    .badge-pill {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--success-light);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Form Fields */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-label-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .field-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .field-value-box {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--text-main);
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Radio / Checkbox Highlights */
+    .choice-box {
+      border: 2px solid #ceead6;
+      background: var(--success-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .choice-radio {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--success);
+    }
+
+    .choice-text strong {
+      display: block;
+      color: #137333;
+      font-size: 14px;
+    }
+
+    .choice-text span {
+      font-size: 12px;
+      color: #137333;
+      opacity: 0.9;
+    }
+
+    /* Checklist Box */
+    .checklist-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .check-item {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    .check-item.checked {
+      background: var(--success-light);
+      border-color: #a8dab5;
+      font-weight: 600;
+      color: #137333;
+    }
+
+    .check-item.unchecked {
+      background: #ffffff;
+      color: var(--text-muted);
+    }
+
+    .tag-uncheck {
+      background: #fce8e6;
+      color: var(--danger);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: auto;
+    }
+
+    .tag-check {
+      background: #ceead6;
+      color: var(--success);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: auto;
+    }
+
+    /* Alert */
+    .alert {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      line-height: 1.4;
+      background: var(--primary-light);
+      color: #174ea6;
+      border: 1px solid #d2e3fc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header-card">
+      <div class="header-title">
+        <h1>🔒 Preenchimento: "Privacidade"</h1>
+        <p>Respostas e justificativas exatas para aprovação rápida na Chrome Web Store</p>
+      </div>
+      <div class="badge-pill">Aba de Privacidade</div>
+    </header>
+
+    <div class="alert">
+      <span>💡 <strong>Instrução:</strong> Abra a aba <strong>"Privacidade"</strong> (Privacy) no seu painel da Chrome Web Store e copie os textos abaixo para cada campo correspondente.</span>
+    </div>
+
+    <!-- 1. ÚNICO PROPÓSITO -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">1</div>
+        <h2>Único Propósito (Single Purpose)</h2>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Descrição do Único Propósito</span>
+          <span class="field-meta">255 / 1.000 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="single-purpose-text">A extensão tem como finalidade única e exclusiva permitir que o usuário clone e replique pastas compartilhadas do Google Drive diretamente para o seu próprio Google Drive ("Meu Drive"), garantindo a posse dos arquivos sem necessidade de download manual.</span>
+          <button class="copy-btn" onclick="copyText('single-purpose-text', this)">Copiar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. JUSTIFICATIVAS DE PERMISSÃO -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">2</div>
+        <h2>Justificativas de Permissão</h2>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted);">Copie a justificativa técnica exata para cada uma das permissões declaradas no manifesto:</p>
+
+      <!-- identity -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Justificativa de: identity</span>
+          <span class="field-meta">269 / 1.000 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="just-identity">Necessária para autenticar com segurança a conta Google do usuário via OAuth2 nativo (chrome.identity.getAuthToken), obtendo o token de autorização estritamente para executar as chamadas de cópia diretamente na conta do usuário no Google Drive.</span>
+          <button class="copy-btn" onclick="copyText('just-identity', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- storage -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Justificativa de: storage</span>
+          <span class="field-meta">258 / 1.000 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="just-storage">Utilizada para salvar temporariamente em cache local a estrutura de pastas mapeada durante o processo de cópia. Isso permite retomar cópias interrompidas sem duplicar arquivos e manter o estado da interface se a aba for fechada.</span>
+          <button class="copy-btn" onclick="copyText('just-storage', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- alarms -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Justificativa de: alarms</span>
+          <span class="field-meta">248 / 1.000 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="just-alarms">Utilizada para manter o Service Worker (background.js) ativo através de um heartbeat periódico durante operações longas de cópia de pastas volumosas, impedindo que o Chrome finalize o processo em background antes da conclusão.</span>
+          <button class="copy-btn" onclick="copyText('just-alarms', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- unlimitedStorage -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Justificativa de: unlimitedStorage</span>
+          <span class="field-meta">247 / 1.000 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="just-unlimited">Necessária para garantir que árvores e estruturas de pastas com milhares de arquivos possam ter seu mapeamento em cache salvo localmente no navegador sem risco de bloqueio por limite de cota de armazenamento local.</span>
+          <button class="copy-btn" onclick="copyText('just-unlimited', this)">Copiar</button>
+        </div>
+      </div>
+
+      <!-- host permission -->
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">Justificativa de: Permissão do Host (https://www.googleapis.com/*)</span>
+          <span class="field-meta">258 / 1.000 caracteres</span>
+        </div>
+        <div class="field-value-box">
+          <span id="just-host">Necessária para comunicar com os endpoints da Google Drive API v3 (ex: /files, /files/{id}/copy) a fim de ler a árvore de arquivos da pasta compartilhada de origem e criar os arquivos clonados diretamente na conta do usuário.</span>
+          <button class="copy-btn" onclick="copyText('just-host', this)">Copiar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CÓDIGO REMOTO -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">3</div>
+        <h2>Código Remoto</h2>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Você está usando código remoto?</span>
+        <div class="choice-box">
+          <input type="radio" checked class="choice-radio">
+          <div class="choice-text">
+            <strong>✅ Selecionar: "Não, não estou usando Código remoto"</strong>
+            <span>Todo o código JS/CSS da extensão está 100% contido nos arquivos locais do pacote (background.js, popup.js, tab.js, content.js).</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. USO DE DADOS -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">4</div>
+        <h2>Uso de Dados (Quais dados você pretende coletar?)</h2>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted);">Como a extensão não coleta nenhum dado do usuário em servidores externos, <strong>DEIXE TODAS AS CAIXAS DESMARCADAS</strong>:</p>
+
+      <div class="checklist-grid">
+        <div class="check-item unchecked">
+          <span>❌ Informações de identificação pessoal</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Informações sobre saúde</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Informações financeiras e de pagamento</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Informações de autenticação</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Comunicações pessoais</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Local</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Histórico da Web</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Atividade do usuário</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+        <div class="check-item unchecked">
+          <span>❌ Conteúdo do site</span>
+          <span class="tag-uncheck">DEIXAR DESMARCADO</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. DECLARAÇÕES OBRIGATÓRIAS -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">5</div>
+        <h2>Declarações Obrigatórias</h2>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted);">Você deve marcar como <strong>SIM / VERDADEIRO</strong> as 3 caixas de certificação abaixo:</p>
+
+      <div class="checklist-grid">
+        <div class="check-item checked">
+          <span>☑️ Não vendo nem transfiro dados do usuário a terceiros fora dos casos de uso aprovados.</span>
+          <span class="tag-check">MARCAR SIM</span>
+        </div>
+        <div class="check-item checked">
+          <span>☑️ Não uso nem transfiro dados do usuário para fins não relacionados ao único objetivo do meu item.</span>
+          <span class="tag-check">MARCAR SIM</span>
+        </div>
+        <div class="check-item checked">
+          <span>☑️ Não uso nem transfiro dados do usuário para determinar credibilidade ou para fins de empréstimo.</span>
+          <span class="tag-check">MARCAR SIM</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. URL DA POLÍTICA DE PRIVACIDADE -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-icon">6</div>
+        <h2>Política de Privacidade</h2>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label-bar">
+          <span class="field-label">URL da Política de Privacidade</span>
+          <span class="field-meta">Cole a URL pública onde hospedou o privacy.html</span>
+        </div>
+        <div class="field-value-box">
+          <span id="privacy-link-text">URL pública do seu arquivo privacy.html (ex: https://seu-usuario.github.io/copiador-drive/privacy.html)</span>
+          <button class="copy-btn" onclick="copyText('privacy-link-text', this)">Copiar</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function copyText(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Copiado! ✓';
+        btn.style.background = '#1e8e3e';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.background = '#1a73e8';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

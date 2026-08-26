@@ -455,40 +455,64 @@
     <section class="step-card">
       <div class="step-header">
         <div class="step-number">2</div>
-        <div class="step-title">Configurar OAuth no Google Cloud Console</div>
+        <div class="step-title">Configurar OAuth no Google Cloud (Nova Tela "Google Auth Platform")</div>
         <label class="step-checkbox">
           <input type="checkbox" class="step-check-input" onchange="updateProgress()">
           <span>Concluído</span>
         </label>
       </div>
       <div class="step-content">
-        <p>Agora você vai autorizar a extensão a se comunicar com a Google Drive API:</p>
+        <p>Acesse o <strong>Google Cloud Console</strong> para autorizar a extensão a se comunicar com a Google Drive API:</p>
+        <p><a href="https://console.cloud.google.com/" target="_blank" class="btn-link">Abrir Google Cloud Console ↗</a></p>
+        
+        <div class="alert alert-info">
+          <span>💡 <strong>Dica:</strong> Se ainda não ativou a API, digite <strong>"Google Drive API"</strong> na barra de pesquisa no topo da página e clique no botão azul <strong>"Ativar"</strong>.</span>
+        </div>
+
+        <p>No menu lateral esquerdo da tela <strong>"Google Auth Platform"</strong>, siga estas 4 etapas:</p>
+        
         <ol>
-          <li>Acesse o <strong>Google Cloud Console</strong>:
-            <br>
-            <a href="https://console.cloud.google.com/" target="_blank" class="btn-link">Abrir Google Cloud Console ↗</a>
-          </li>
-          <li>Selecione ou crie um projeto (ex: <code>Copiador de Drive</code>).</li>
-          <li>Vá em <strong>APIs e Serviços</strong> &gt; <strong>Biblioteca</strong> e certifique-se de que a <strong>Google Drive API</strong> está ativada.</li>
-          <li>Vá em <strong>APIs e Serviços</strong> &gt; <strong>Tela de consentimento OAuth</strong>:
+          <li>
+            <strong>1. Branding (Marca / Tela de Consentimento):</strong>
             <ul>
-              <li>Tipo de usuário: <strong>Externo</strong>.</li>
-              <li>Preencha Nome do App (<code>Copiador de Drive</code>) e e-mail de suporte.</li>
-              <li>Em <strong>Escopos</strong>, adicione:
+              <li><strong>Nome do app:</strong> Digite <span class="tag">Copiador de Drive</span></li>
+              <li><strong>E-mail de suporte do usuário:</strong> Selecione seu e-mail.</li>
+              <li><strong>Link da Política de Privacidade:</strong> Cole a URL oficial:
+                <br>
+                <span class="tag">https://lyncolnsas.github.io/CopiadorDrive/privacy.html</span>
+              </li>
+              <li><strong>Dados de contato do desenvolvedor:</strong> Digite seu e-mail.</li>
+              <li>Clique em <strong>Salvar</strong>.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>2. Público-alvo:</strong>
+            <ul>
+              <li>Certifique-se de que o tipo de usuário está configurado como <strong>Externo</strong>.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>3. Acesso a dados (Escopos da API):</strong>
+            <ul>
+              <li>Clique no botão <strong>"Adicionar ou remover escopos"</strong>.</li>
+              <li>Pesquise e marque os 2 escopos do Google Drive:
                 <br>
                 <span class="tag">https://www.googleapis.com/auth/drive.readonly</span>
                 <br>
                 <span class="tag">https://www.googleapis.com/auth/drive.file</span>
               </li>
-              <li>Em <strong>Política de Privacidade</strong>, coloque a URL onde você hospedará o arquivo <span class="tag">privacy.html</span>.</li>
+              <li>Clique em <strong>Salvar e continuar</strong>.</li>
             </ul>
           </li>
-          <li>Vá em <strong>APIs e Serviços</strong> &gt; <strong>Credenciais</strong>:
+          <li>
+            <strong>4. Clientes (Gerar o Client ID):</strong>
             <ul>
-              <li>Clique em <strong>+ CRIAR CREDENCIAIS</strong> &gt; <strong>ID do cliente OAuth</strong>.</li>
-              <li>Tipo de aplicativo: <strong>Extensão do Chrome</strong>.</li>
-              <li>No campo <strong>ID do item</strong>: Cole o ID de 32 letras que você obteve na Etapa 1.</li>
-              <li>Clique em <strong>CRIAR</strong> e copie o <strong>ID do Cliente</strong> gerado (termina com <code>.apps.googleusercontent.com</code>).</li>
+              <li>Clique no botão <strong>"+ CRIAR CLIENTE"</strong> no topo.</li>
+              <li><strong>Tipo de aplicativo:</strong> Selecione <strong>Extensão do Chrome</strong> <em>(Chrome Extension)</em>.</li>
+              <li><strong>Nome:</strong> <span class="tag">Copiador de Drive</span></li>
+              <li><strong>ID do item:</strong> Cole o ID de 32 letras que você obteve na Chrome Web Store na Etapa 1.</li>
+              <li>Clique em <strong>Criar</strong>.</li>
+              <li>📋 <strong>Copie o ID do Cliente gerado</strong> (código que termina com <span class="tag">.apps.googleusercontent.com</span>).</li>
             </ul>
           </li>
         </ol>

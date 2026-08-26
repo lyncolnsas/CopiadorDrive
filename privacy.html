@@ -3,67 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Política de Privacidade - Copiador & Catalogador de Drive</title>
+  <title>Política de Privacidade e Termos de Uso — Copiador & Catalogador de Drive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --bg: #f8fafd;
+      --card-bg: #ffffff;
+      --border: #dadce0;
+      --warning: #b06000;
+      --warning-bg: #fef7e0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      color: #202124;
-      max-width: 800px;
-      margin: 0 auto;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+      color: var(--text-main);
+      background-color: var(--bg);
       padding: 40px 20px;
-      background-color: #f8f9fa;
     }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
     .card {
-      background: #ffffff;
-      padding: 36px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-      border: 1px solid #dadce0;
+      background: var(--card-bg);
+      padding: 36px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(60,64,67,0.08);
+      border: 1px solid var(--border);
     }
-    h1 { color: #1a73e8; margin-top: 0; font-size: 24px; }
-    h2 { color: #3c4043; font-size: 18px; margin-top: 24px; }
-    p, li { color: #5f6368; font-size: 14px; }
-    ul { padding-left: 20px; }
-    .badge { background: #e8f0fe; color: #1a73e8; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+
+    .header-badge {
+      display: inline-block;
+      background: #e8f0fe;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .updated-date {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      border-bottom: 1px solid #f1f3f4;
+      padding-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 28px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 16px;
+      margin-bottom: 6px;
+    }
+
+    p, li {
+      font-size: 14px;
+      color: #3c4043;
+      margin-bottom: 10px;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 14px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .disclaimer-box {
+      background: var(--warning-bg);
+      border: 1px solid #fde293;
+      border-left: 5px solid var(--warning);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      color: #5c3b00;
+    }
+
+    .disclaimer-box h3 {
+      color: #b06000;
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .trademark-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid #f1f3f4;
+      padding-top: 16px;
+      margin-top: 30px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 20px;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 24px 20px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <span class="badge">Privacidade & Segurança</span>
-    <h1>Política de Privacidade — Copiador & Catalogador de Drive</h1>
-    <p><strong>Última atualização:</strong> 26 de Agosto de 2026 (Versão 1.1.0)</p>
-    
-    <p>A extensão <strong>Copiador & Catalogador de Drive</strong> foi desenvolvida com compromisso total com a sua privacidade e segurança de dados.</p>
+  <div class="container">
+    <div class="card">
+      <span class="header-badge">Documento Oficial</span>
+      <h1>Política de Privacidade, Termos de Uso e Isenção de Responsabilidade</h1>
+      <div class="updated-date">Última atualização: 26 de Agosto de 2026 • Versão 1.1.0</div>
 
-    <h2>1. Coleta e Uso de Informações</h2>
-    <p>A extensão <strong>NÃO</strong> coleta, não rastreia, não armazena em servidores remotos e não compartilha quaisquer dados pessoais ou arquivos do usuário.</p>
-    <p>Todo o processamento de clonagem de pastas e geração de catálogos HTML ocorre <strong>estritamente entre o seu navegador e as APIs oficiais do Google Drive</strong>.</p>
+      <p>Bem-vindo ao <strong>Copiador & Catalogador de Drive</strong>. Este documento define os Termos de Uso, a Política de Privacidade e a Isenção de Responsabilidade aplicáveis a todos os usuários da extensão para Google Chrome.</p>
 
-    <h2>2. Uso de Permissões e Escopos da Google Drive API</h2>
-    <p>A extensão solicita acesso aos seguintes escopos e permissões oficiais:</p>
-    <ul>
-      <li><code>https://www.googleapis.com/auth/drive.readonly</code>: Usado exclusivamente para ler a estrutura de arquivos e pastas compartilhadas que o usuário solicitar clonar ou catalogar.</li>
-      <li><code>https://www.googleapis.com/auth/drive.file</code>: Usado exclusivamente para criar pastas e duplicar os arquivos selecionados no "Meu Drive" da sua conta Google.</li>
-      <li><code>downloads</code>: Usada exclusivamente para salvar o arquivo de catálogo HTML compilado localmente no computador do usuário quando acionado.</li>
-      <li><code>identity</code>: Usada para obter o token de autenticação direto e seguro via Google OAuth2.</li>
-    </ul>
+      <!-- ================= PARTE 1: POLÍTICA DE PRIVACIDADE ================= -->
+      <h2>🔒 1. Política de Privacidade</h2>
+      
+      <h3>1.1 Coleta Zero de Dados Pessoais</h3>
+      <p>A extensão foi desenvolvida sob o princípio da <strong>Privacidade por Design</strong>. Nós <strong>NÃO</strong> coletamos, não registramos, não rastreamos e não enviamos para nenhum servidor externo quaisquer informações pessoais, senhas, e-mails, metadados ou arquivos do usuário.</p>
 
-    <h2>3. Armazenamento Local</h2>
-    <p>A extensão utiliza o armazenamento local do navegador (<code>chrome.storage.local</code>) apenas para:</p>
-    <ul>
-      <li>Salvar o token de autenticação temporário para manter você conectado.</li>
-      <li>Armazenar em cache o mapeamento das pastas e o histórico dos últimos catálogos gerados.</li>
-    </ul>
+      <h3>1.2 Comunicação Direta com APIs Oficiais</h3>
+      <p>Todas as operações de clonagem de pastas e catalogação HTML ocorrem <strong>direta e exclusivamente entre o navegador do usuário e os servidores oficiais da Google LLC</strong> (via Google Drive API v3 e Google Identity OAuth2).</p>
 
-    <h2>4. Compartilhamento de Dados</h2>
-    <p>Nenhum dado é vendido, repassado ou compartilhado com terceiros. A extensão não possui servidores intermediários nem serviços analíticos externos.</p>
+      <h3>1.3 Escopos e Permissões Utilizadas</h3>
+      <ul>
+        <li><code>https://www.googleapis.com/auth/drive.readonly</code>: Permite listar arquivos e pastas compartilhadas para que o usuário possa escolher cloná-las ou visualizá-las em um catálogo.</li>
+        <li><code>https://www.googleapis.com/auth/drive.file</code>: Permite criar novas pastas e duplicar os arquivos selecionados no "Meu Drive" da conta Google do próprio usuário.</li>
+        <li><code>storage</code> e <code>unlimitedStorage</code>: Utilizadas exclusivamente para salvar localmente no navegador o progresso da cópia e os históricos de catálogos gerados.</li>
+        <li><code>alarms</code>: Utilizada para manter o Service Worker em execução contínua durante operações em lote.</li>
+        <li><code>downloads</code>: Utilizada unicamente para salvar o arquivo do catálogo HTML (.html) no computador do usuário quando ele clica no botão de download.</li>
+      </ul>
 
-    <h2>5. Revogação de Acesso</h2>
-    <p>Você pode desconectar sua conta a qualquer momento clicando em "Desconectar Conta" no menu da extensão ou revogando o acesso diretamente no painel <a href="https://myaccount.google.com/permissions" target="_blank">Permissões de Conta Google</a>.</p>
+      <!-- ================= PARTE 2: TERMOS DE USO ================= -->
+      <h2>📜 2. Termos de Uso</h2>
+      
+      <h3>2.1 Aceitação dos Termos</h3>
+      <p>Ao instalar e utilizar o Copiador & Catalogador de Drive, você declara ter lido, compreendido e concordado integralmente com estes Termos de Uso.</p>
 
-    <h2>6. Contato</h2>
-    <p>Para dúvidas sobre esta política, acesse nosso repositório no GitHub ou o canal de suporte da Chrome Web Store.</p>
+      <h3>2.2 Uso Legal e Ético</h3>
+      <p>O usuário compromete-se a utilizar a extensão em total conformidade com a legislação aplicável, os Termos de Serviço do Google Drive e as políticas de direitos autorais. É expressamente vedado o uso da extensão para:</p>
+      <ul>
+        <li>Copiar, disseminar ou catalogar materiais protegidos por direitos autorais sem a devida autorização do titular dos direitos.</li>
+        <li>Burlar permissões de acesso ou controles de segurança estabelecidos pelo proprietário original da pasta.</li>
+        <li>Violar as políticas de cota de API ou diretrizes de uso aceitável da Google Cloud Platform.</li>
+      </ul>
+
+      <!-- ================= PARTE 3: ISENÇÃO DE RESPONSABILIDADE ================= -->
+      <h2>⚖️ 3. Isenção de Responsabilidade (Disclaimer)</h2>
+
+      <div class="disclaimer-box">
+        <h3>⚠️ Declaração de Limitação de Responsabilidade do Desenvolvedor</h3>
+        <p><strong>3.1 Fornecimento "No Estado em que se Encontra" (AS IS):</strong> A extensão é disponibilizada gratuitamente como ferramenta utilitária "no estado em que se encontra", sem qualquer tipo de garantia, expressa ou implícita, incluindo garantias de comercialização, adequação a uma finalidade específica ou ausência de erros.</p>
+        
+        <p><strong>3.2 Responsabilidade Exclusiva do Usuário:</strong> O usuário é o único e exclusivo responsável por todo e qualquer arquivo, pasta ou conteúdo que decidir transferir, duplicar, baixar ou catalogar através da extensão.</p>
+
+        <p><strong>3.3 Isenção por Danos ou Cotas:</strong> Em nenhuma hipótese o criador/desenvolvedor da extensão será responsabilizado por eventuais perdas de dados, corrupção de arquivos, suspensão de contas Google, limites de armazenamento excedidos no Google Drive, ou quaisquer danos diretos, indiretos ou consequentes decorrentes do uso ou da impossibilidade de uso do software.</p>
+      </div>
+
+      <h2>🏢 4. Vínculo e Direitos de Marcas</h2>
+      <div class="trademark-note">
+        <p>Google Drive™, Google Chrome™ e Google Workspace™ são marcas registradas pertencentes à Google LLC. O desenvolvedor desta extensão é um desenvolvedor independente e não possui vínculo corporativo, patrocínio, afiliação direta ou endosso por parte da Google LLC.</p>
+      </div>
+
+      <h2>📬 5. Contato e Suporte</h2>
+      <p>Para dúvidas, suporte ou solicitações relacionadas a esta política, visite o repositório oficial no <a href="https://github.com/lyncolnsas/CopiadorDrive" target="_blank">GitHub</a> ou utilize a página de suporte na Chrome Web Store.</p>
+    </div>
+
+    <footer>
+      <p>© 2026 Copiador & Catalogador de Drive • Desenvolvido por <a href="https://github.com/lyncolnsas" target="_blank">lyncolnsas</a></p>
+    </footer>
   </div>
 </body>
 </html>
